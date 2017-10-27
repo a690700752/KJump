@@ -11,6 +11,6 @@ class KJumpAction : AnAction() {
     }
 
     override fun actionPerformed(anActionEvent: AnActionEvent) {
-        MainHandler().start()
+        JumpHandler.start()
     }
 }
