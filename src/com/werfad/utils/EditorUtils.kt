@@ -16,7 +16,14 @@ fun Editor.getVisibleBorderOffset(): IntArray {
     return intArrayOf(startOff, endOff)
 }
 
-fun Editor.findCharsInVisibleArea(find: String): List<Int> {
+fun Editor.findAllInVisibleArea(c: Char): List<Int> {
+    val borderOffset = getVisibleBorderOffset()
+    val text = document.getText(TextRange(borderOffset[0], borderOffset[1]))
+
+    return text.findAll(c)
+}
+
+fun Editor.findAllInVisibleArea(find: String): List<Int> {
     val borderOffset = getVisibleBorderOffset()
     val text = document.getText(TextRange(borderOffset[0], borderOffset[1]))
 
