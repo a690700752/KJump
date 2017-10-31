@@ -17,7 +17,7 @@ object JumpHandler : TypedActionHandler {
         e.contentComponent.repaint()
 
         val allOffsets = e.findAllInVisibleArea(c)
-        val marks = allOffsets.map { offset -> Mark("AB", offset) }
+        val marks = allOffsets.map { offset -> Mark("A", offset) }
         mMarksCanvas.setData(marks)
 
         stop()

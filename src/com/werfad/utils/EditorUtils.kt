@@ -20,12 +20,12 @@ fun Editor.findAllInVisibleArea(c: Char): List<Int> {
     val borderOffset = getVisibleBorderOffset()
     val text = document.getText(TextRange(borderOffset[0], borderOffset[1]))
 
-    return text.findAll(c)
+    return text.findAll(c).map { it + borderOffset[0] }
 }
 
 fun Editor.findAllInVisibleArea(find: String): List<Int> {
     val borderOffset = getVisibleBorderOffset()
     val text = document.getText(TextRange(borderOffset[0], borderOffset[1]))
 
-    return text.findAll(find)
+    return text.findAll(find).map { it + borderOffset[0] }
 }

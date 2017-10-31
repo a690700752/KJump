@@ -2,16 +2,13 @@ package com.werfad
 
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.editor.colors.EditorFontType
-import com.intellij.openapi.editor.colors.removeSchemeMetaInfo
-import java.awt.Color
-import java.awt.Graphics
-import java.awt.Point
-import java.awt.Rectangle
+import java.awt.*
 import javax.swing.JComponent
 
 class MarksCanvas : JComponent() {
     private lateinit var mMarks: List<Mark>
     private lateinit var mEditor: Editor
+    private lateinit var mFont: Font
 
     fun sync(e: Editor) {
         val visibleArea = e.scrollingModel.visibleArea
@@ -25,15 +22,22 @@ class MarksCanvas : JComponent() {
     }
 
     override fun paint(g: Graphics) {
+        calcCoordinate(g)
+
         mMarks.forEach {
+            g.color = Color.RED
+            g.drawRect(it.MarkStart!!.x - x, it.MarkStart!!.y - y, it.strBounds!!.width, it.strBounds!!.height)
+
+            g.font = mFont
+            g.color = Color.GREEN
+            g.drawString(it.keyBinding, it.MarkStart!!.x - x, it.MarkStart!!.y - y + it.strBounds!!.height)
         }
-        g.color = Color.RED
-        g.drawString("Hello world", 400, 300)
+
         super.paint(g)
     }
 
-    private fun checkAndCalcCoordinate(g: Graphics) {
-        val font = mEditor.colorsScheme.getFont(EditorFontType.BOLD)
+    private fun calcCoordinate(g: Graphics) {
+        mFont = mEditor.colorsScheme.getFont(EditorFontType.BOLD)
         val fontMetrics = mEditor.contentComponent.getFontMetrics(font)
 
         mMarks.forEach {
@@ -42,17 +46,16 @@ class MarksCanvas : JComponent() {
             }
 
             if (it.MarkStart == null) {
-                val bounds = fontMetrics.getStringBounds(it.keyBinding.substring(0, it.keyBinding.length), g).bounds
-                mEditor
+                val bounds = fontMetrics.getStringBounds(it.keyBinding.substring(0, it.keyBinding.length - 1), g).bounds
+                val offsetToXY = mEditor.offsetToXY(it.offset)
+                it.MarkStart = Point(offsetToXY.x - bounds.width, offsetToXY.y)
             }
         }
-
-        fontMetrics.getStringBounds()
     }
 
 }
 
-class Mark(val keyBinding: String, private val offset: Int) {
+class Mark(val keyBinding: String, val offset: Int) {
     var strBounds: Rectangle? = null
     var MarkStart: Point? = null
 }
