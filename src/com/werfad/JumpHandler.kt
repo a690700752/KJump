@@ -16,7 +16,8 @@ object JumpHandler : TypedActionHandler {
 
     private val STATE_WAIT_SEARCH_CHAR = 0
     private val STATE_WAIT_KEY = 1
-    private var state: Int = 0
+    private var state = 0
+    private var isStart = false
 
     private lateinit var mMarks: List<Mark>
 
@@ -73,27 +74,34 @@ object JumpHandler : TypedActionHandler {
     }
 
     fun start() {
-        val manager = EditorActionManager.getInstance()
-        val typedAction = manager.typedAction
+        if (!isStart) {
+            isStart = true
+            val manager = EditorActionManager.getInstance()
+            val typedAction = manager.typedAction
 
-        mOldTypedHandler = typedAction.rawHandler
-        typedAction.setupRawHandler(this)
+            mOldTypedHandler = typedAction.rawHandler
+            typedAction.setupRawHandler(this)
 
-        mOldEscActionHandler = manager.getActionHandler(IdeActions.ACTION_EDITOR_ESCAPE)
-        manager.setActionHandler(IdeActions.ACTION_EDITOR_ESCAPE, escActionHandler)
+            mOldEscActionHandler = manager.getActionHandler(IdeActions.ACTION_EDITOR_ESCAPE)
+            manager.setActionHandler(IdeActions.ACTION_EDITOR_ESCAPE, escActionHandler)
 
-        state = STATE_WAIT_SEARCH_CHAR
+            state = STATE_WAIT_SEARCH_CHAR
+        }
     }
 
     private fun stop() {
-        val manager = EditorActionManager.getInstance()
-        manager.typedAction.setupRawHandler(mOldTypedHandler)
-        mOldEscActionHandler?.let { manager.setActionHandler(IdeActions.ACTION_EDITOR_ESCAPE, it) }
+        if (isStart) {
+            isStart = false
+            val manager = EditorActionManager.getInstance()
+            manager.typedAction.setupRawHandler(mOldTypedHandler)
+            mOldEscActionHandler?.let { manager.setActionHandler(IdeActions.ACTION_EDITOR_ESCAPE, it) }
 
-        val parent = mMarksCanvas.parent
-        parent?.let {  // Maybe press ESC key before press any key.
-            parent.remove(mMarksCanvas)
-            parent.repaint()
+            val parent = mMarksCanvas.parent
+            parent?.let {
+                // Maybe press ESC key to stop before press any key.
+                parent.remove(mMarksCanvas)
+                parent.repaint()
+            }
         }
     }
 }
