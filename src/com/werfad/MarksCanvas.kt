@@ -10,11 +10,14 @@ class MarksCanvas : JComponent() {
     private lateinit var mSortedMarks: List<Mark>
     private lateinit var mEditor: Editor
     private lateinit var mFont: Font
+    private lateinit var mFontMetrics: FontMetrics
 
     fun sync(e: Editor) {
         val visibleArea = e.scrollingModel.visibleArea
         setBounds(visibleArea.x, visibleArea.y, visibleArea.width, visibleArea.height)
         mEditor = e
+        mFont = mEditor.colorsScheme.getFont(EditorFontType.BOLD)
+        mFontMetrics = mEditor.contentComponent.getFontMetrics(mFont)
     }
 
     fun setData(marks: List<Mark>) {
@@ -48,12 +51,9 @@ class MarksCanvas : JComponent() {
     }
 
     private fun calcCoordinate(g: Graphics) {
-        mFont = mEditor.colorsScheme.getFont(EditorFontType.BOLD)
-        val fontMetrics = mEditor.contentComponent.getFontMetrics(font)
-
         mMarks.forEach {
             if (it.strBounds == null) {
-                it.strBounds = fontMetrics.getStringBounds(it.keyTag, g).bounds
+                it.strBounds = mFontMetrics.getStringBounds(it.keyTag, g).bounds
             }
 
             if (it.markStart == null) {
@@ -64,7 +64,12 @@ class MarksCanvas : JComponent() {
 
 }
 
-class Mark(val keyTag: String, val offset: Int) {
+class Mark(keyTag: String, val offset: Int) {
+    var keyTag: String = keyTag
+        set(value) {
+            strBounds = null
+            field = value
+        }
     var strBounds: Rectangle? = null
     var markStart: Point? = null
 }
