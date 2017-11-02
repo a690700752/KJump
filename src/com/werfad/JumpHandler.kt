@@ -1,41 +1,48 @@
 package com.werfad
 
 import com.intellij.openapi.actionSystem.DataContext
+import com.intellij.openapi.actionSystem.IdeActions
+import com.intellij.openapi.editor.Caret
 import com.intellij.openapi.editor.Editor
+import com.intellij.openapi.editor.actionSystem.EditorActionHandler
 import com.intellij.openapi.editor.actionSystem.EditorActionManager
 import com.intellij.openapi.editor.actionSystem.TypedActionHandler
 import com.werfad.utils.findAllInVisibleArea
 
 object JumpHandler : TypedActionHandler {
-    private val mTypedAction = EditorActionManager.getInstance().typedAction
-    private val mOldHandler = mTypedAction.rawHandler
+    private lateinit var mOldTypedHandler: TypedActionHandler
+    private var mOldEscActionHandler: EditorActionHandler? = null
     private val mMarksCanvas = MarksCanvas()
 
     private val STATE_WAIT_SEARCH_CHAR = 0
     private val STATE_WAIT_KEY = 1
-    private var state: Int = STATE_WAIT_SEARCH_CHAR
+    private var state: Int = 0
 
     private lateinit var mMarks: List<Mark>
 
     override fun execute(e: Editor, c: Char, dc: DataContext) {
-        when(state) {
+        when (state) {
             STATE_WAIT_SEARCH_CHAR -> {
                 mMarksCanvas.sync(e)
                 e.contentComponent.add(mMarksCanvas)
                 e.contentComponent.repaint()
 
                 val allOffsets = e.findAllInVisibleArea(c).sortedBy { Math.abs(it - e.caretModel.offset) }
+                if (allOffsets.isEmpty()) {
+                    stop()
+                }
+
                 val tags = KeyTagsGenerator.createTagsTree(allOffsets.size, "abcdefghijklmnopqrstuvwxyz;")
+
                 mMarks = allOffsets.mapIndexed { index, offset -> Mark(tags[index], offset) }
                 mMarksCanvas.setData(mMarks)
                 state = STATE_WAIT_KEY
             }
             STATE_WAIT_KEY -> {
                 mMarks = filterMarksByKey(c)
-                if (mMarks.size == 1 ) {
+                if (mMarks.size == 1) {
                     e.caretModel.moveToOffset(mMarks[0].offset)
-                    stop(e)
-                    state = STATE_WAIT_SEARCH_CHAR
+                    stop()
                 } else {
                     mMarksCanvas.setData(mMarks)
                 }
@@ -59,13 +66,34 @@ object JumpHandler : TypedActionHandler {
         return newMarks
     }
 
-    fun start() {
-        mTypedAction.setupRawHandler(this)
+    private val escActionHandler = object : EditorActionHandler() {
+        override fun doExecute(editor: Editor?, caret: Caret?, dataContext: DataContext?) {
+            stop()
+        }
     }
 
-    private fun stop(e: Editor) {
-        mTypedAction.setupRawHandler(mOldHandler)
-        e.contentComponent.remove(mMarksCanvas)
-        e.contentComponent.repaint()
+    fun start() {
+        val manager = EditorActionManager.getInstance()
+        val typedAction = manager.typedAction
+
+        mOldTypedHandler = typedAction.rawHandler
+        typedAction.setupRawHandler(this)
+
+        mOldEscActionHandler = manager.getActionHandler(IdeActions.ACTION_EDITOR_ESCAPE)
+        manager.setActionHandler(IdeActions.ACTION_EDITOR_ESCAPE, escActionHandler)
+
+        state = STATE_WAIT_SEARCH_CHAR
+    }
+
+    private fun stop() {
+        val manager = EditorActionManager.getInstance()
+        manager.typedAction.setupRawHandler(mOldTypedHandler)
+        mOldEscActionHandler?.let { manager.setActionHandler(IdeActions.ACTION_EDITOR_ESCAPE, it) }
+
+        val parent = mMarksCanvas.parent
+        parent?.let {  // Maybe press ESC key before press any key.
+            parent.remove(mMarksCanvas)
+            parent.repaint()
+        }
     }
 }
