@@ -1,4 +1,4 @@
-package com.werfad.utils
+package com.werfad
 
 import java.util.*
 

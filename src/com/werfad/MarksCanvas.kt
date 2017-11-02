@@ -9,11 +9,14 @@ class MarksCanvas : JComponent() {
     private lateinit var mMarks: List<Mark>
     private lateinit var mEditor: Editor
     private lateinit var mFont: Font
+    private lateinit var mFontMetrics: FontMetrics
 
     fun sync(e: Editor) {
         val visibleArea = e.scrollingModel.visibleArea
         setBounds(visibleArea.x, visibleArea.y, visibleArea.width, visibleArea.height)
         mEditor = e
+        mFont = mEditor.colorsScheme.getFont(EditorFontType.BOLD)
+        mFontMetrics = mEditor.contentComponent.getFontMetrics(mFont)
     }
 
     fun setData(marks: List<Mark>) {
@@ -22,40 +25,39 @@ class MarksCanvas : JComponent() {
     }
 
     override fun paint(g: Graphics) {
-        calcCoordinate(g)
 
         mMarks.forEach {
+            calcCoordinate(g, it)
             g.color = Color.RED
-            g.drawRect(it.MarkStart!!.x - x, it.MarkStart!!.y - y, it.strBounds!!.width, it.strBounds!!.height)
+            g.drawRect(it.markStart!!.x - x, it.markStart!!.y - y, it.strBounds!!.width, it.strBounds!!.height)
 
             g.font = mFont
             g.color = Color.GREEN
-            g.drawString(it.keyBinding, it.MarkStart!!.x - x, it.MarkStart!!.y - y + it.strBounds!!.height)
+            g.drawString(it.keyBinding, it.markStart!!.x - x, it.markStart!!.y - y + it.strBounds!!.height)
         }
 
         super.paint(g)
     }
 
-    private fun calcCoordinate(g: Graphics) {
-        mFont = mEditor.colorsScheme.getFont(EditorFontType.BOLD)
-        val fontMetrics = mEditor.contentComponent.getFontMetrics(font)
+    private fun calcCoordinate(g: Graphics, m: Mark) {
+        if (m.strBounds == null) {
+            m.strBounds = mFontMetrics.getStringBounds(m.keyBinding, g).bounds
+        }
 
-        mMarks.forEach {
-            if (it.strBounds == null) {
-                it.strBounds = fontMetrics.getStringBounds(it.keyBinding, g).bounds
-            }
-
-            if (it.MarkStart == null) {
-                val bounds = fontMetrics.getStringBounds(it.keyBinding.substring(0, it.keyBinding.length - 1), g).bounds
-                val offsetToXY = mEditor.offsetToXY(it.offset)
-                it.MarkStart = Point(offsetToXY.x - bounds.width, offsetToXY.y)
-            }
+        if (m.markStart == null) {
+            m.markStart = mEditor.offsetToXY(m.offset)
         }
     }
 
 }
 
-class Mark(val keyBinding: String, val offset: Int) {
+class Mark(keyBinding: String, val offset: Int) {
+    var keyBinding: String = keyBinding
+        set(value) {
+            markStart = null
+            field = value
+        }
     var strBounds: Rectangle? = null
-    var MarkStart: Point? = null
+    var markStart: Point? = null
+
 }
