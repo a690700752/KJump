@@ -1,8 +1,8 @@
 <idea-plugin>
-  <id>com.your.company.unique.plugin.id</id>
-  <name>Plugin display name here</name>
-  <version>1.0</version>
-  <vendor email="support@yourcompany.com" url="http://www.yourcompany.com">YourCompany</vendor>
+  <id>com.werfad</id>
+  <name>KJump</name>
+  <version>0.0.1</version>
+  <vendor email="tz59pk@gmail.com" url="http://www.yourcompany.com">YourCompany</vendor>
 
   <description><![CDATA[
       Enter short description for your plugin here.<br>
@@ -30,8 +30,7 @@
 
   <actions>
     <!-- Add your actions here -->
-    <action id="com.werfad.KJumpAction" class="com.werfad.KJumpAction" text="KJump" description="KJump">
-      <add-to-group group-id="ToolsMenu" anchor="first"/>
+    <action id="KJumpAction" class="com.werfad.KJumpAction" text="KJump" description="KJump">
     </action>
   </actions>
 

@@ -41,7 +41,9 @@ object JumpHandler : TypedActionHandler {
             }
             STATE_WAIT_KEY -> {
                 mMarks = filterMarksByKey(c)
-                if (mMarks.size == 1) {
+                if (mMarks.isEmpty()) {
+                    stop()
+                } else if (mMarks.size == 1) {
                     e.caretModel.moveToOffset(mMarks[0].offset)
                     stop()
                 } else {
