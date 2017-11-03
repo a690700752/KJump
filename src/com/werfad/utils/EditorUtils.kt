@@ -5,6 +5,8 @@ import com.intellij.openapi.editor.LogicalPosition
 import com.intellij.openapi.util.TextRange
 import java.awt.Point
 
+
+
 fun Editor.getVisibleBorderOffset(): IntArray {
     val visibleArea = scrollingModel.visibleArea
 
@@ -29,3 +31,14 @@ fun Editor.findAllInVisibleArea(find: String): List<Int> {
 
     return text.findAll(find).map { it + borderOffset[0] }
 }
+
+
+fun Editor.offsetToXYCompat(offset: Int): Point {
+    return offsetToXYCompat(offset, false, false)
+}
+
+fun Editor.offsetToXYCompat(offset: Int, leanForward: Boolean, beforeSoftWrap: Boolean): Point {
+    val visualPosition = offsetToVisualPosition(offset, leanForward, beforeSoftWrap)
+    return visualPositionToXY(visualPosition)
+}
+

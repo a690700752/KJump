@@ -2,6 +2,7 @@ package com.werfad
 
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.editor.colors.EditorFontType
+import com.werfad.utils.offsetToXYCompat
 import java.awt.*
 import javax.swing.JComponent
 
@@ -57,7 +58,7 @@ class MarksCanvas : JComponent() {
             }
 
             if (it.markStart == null) {
-                it.markStart = mEditor.offsetToXY(it.offset)
+                it.markStart = mEditor.offsetToXYCompat(it.offset)
             }
         }
     }
