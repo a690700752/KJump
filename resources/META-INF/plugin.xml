@@ -5,13 +5,14 @@
   <vendor email="tz59pk@gmail.com" url="http://www.yourcompany.com">YourCompany</vendor>
 
   <description><![CDATA[
-      Enter short description for your plugin here.<br>
-      <em>most HTML tags may be used</em>
+  A simplify plugin ported from vim-EasyMotion plugin for Intellij Platform IDE. And can be integrated with IdeaVim.
+  It hasn't default active shortcut.
+  You can assign KJump activation shortcuts in Settings->Keymap->KJump menu, such as <c -,> <c - ;> etc or integrate with IdeaVim by add below section in ~/.ideavimrc:
+  nmap <leader><leader>s :action KJumpAction<cr>
     ]]></description>
 
   <change-notes><![CDATA[
-      Add change notes here.<br>
-      <em>most HTML tags may be used</em>
+  * 2017-11-3 0.0.1 release
     ]]>
   </change-notes>
 
