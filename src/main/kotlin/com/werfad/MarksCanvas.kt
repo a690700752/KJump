@@ -45,7 +45,7 @@ class MarksCanvas : JComponent() {
             g2d.font = mFont
             g2d.color = Color.WHITE
             g2d.drawString(it.keyTag, it.markStart!!.x - x,
-                    it.markStart!!.y - y + it.strBounds!!.height)
+                    it.markStart!!.y - y + it.strBounds!!.height - mFontMetrics.descent)
         }
 
         super.paint(g)
