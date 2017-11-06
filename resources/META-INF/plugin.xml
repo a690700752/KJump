@@ -2,7 +2,6 @@
     <id>com.werfad</id>
     <name>KJump</name>
     <version>0.0.1</version>
-    <vendor email="tz59pk@gmail.com" url="http://www.yourcompany.com">YourCompany</vendor>
 
     <description><![CDATA[
     A simplify plugin ported from vim-EasyMotion plugin for Intellij Platform IDE. And can be integrated with IdeaVim.<br>
@@ -12,14 +11,16 @@
     or integrate with IdeaVim by add below section in ~/.ideavimrc:<br>
     nmap <leader><leader>s :action KJumpAction<cr>
     <br>
-    <a href="https://github.com/a690700752/KJump">Github</a>
     ]]></description>
+
 
     <change-notes><![CDATA[
   * 2017-11-3 0.0.1 initial release
     ]]>
     </change-notes>
 
+    <vendor url="https://github.com/a690700752/KJump">Github</vendor>
+    <depends>com.intellij.modules.lang</depends>
     <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
     <idea-version since-build="145.0"/>
 
