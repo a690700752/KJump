@@ -1,7 +1,6 @@
 <idea-plugin>
     <id>com.werfad</id>
     <name>KJump</name>
-    <version>0.0.1</version>
 
     <description><![CDATA[
     A simplify plugin ported from vim-EasyMotion plugin for Intellij Platform IDE. And can be integrated with IdeaVim.<br>
@@ -15,7 +14,8 @@
 
 
     <change-notes><![CDATA[
-  * 2017-11-3 0.0.1 initial release
+        * 2017-11-6 v0.0.2 compat with IntelliJ Platform Products<br>
+        * 2017-11-3 v0.0.1 initial release<br>
     ]]>
     </change-notes>
 

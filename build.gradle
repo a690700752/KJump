@@ -36,3 +36,11 @@ compileKotlin {
 compileTestKotlin {
     kotlinOptions.jvmTarget = "1.8"
 }
+
+intellij {
+    pluginName 'KJump'
+    intellij.updateSinceUntilBuild false
+}
+
+group 'com.werfad'
+version '0.0.2'
