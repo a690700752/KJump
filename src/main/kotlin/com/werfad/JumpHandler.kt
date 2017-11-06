@@ -35,13 +35,13 @@ object JumpHandler : TypedActionHandler {
                     // only one found, just jump to it
                     e.caretModel.moveToOffset(allOffsets[0])
                     stop()
+                } else {
+                    val tags = KeyTagsGenerator.createTagsTree(allOffsets.size, "abcdefghijklmnopqrstuvwxyz;")
+
+                    mMarks = allOffsets.mapIndexed { index, offset -> Mark(tags[index], offset) }
+                    mMarksCanvas.setData(mMarks)
+                    state = STATE_WAIT_KEY
                 }
-
-                val tags = KeyTagsGenerator.createTagsTree(allOffsets.size, "abcdefghijklmnopqrstuvwxyz;")
-
-                mMarks = allOffsets.mapIndexed { index, offset -> Mark(tags[index], offset) }
-                mMarksCanvas.setData(mMarks)
-                state = STATE_WAIT_KEY
             }
             STATE_WAIT_KEY -> {
                 mMarks = filterMarksByKey(c)
