@@ -70,7 +70,7 @@ object JumpHandler : TypedActionHandler {
     }
 
     private val escActionHandler = object : EditorActionHandler() {
-        override fun doExecute(editor: Editor?, caret: Caret?, dataContext: DataContext?) {
+        override fun doExecute(editor: Editor, caret: Caret?, dataContext: DataContext?) {
             stop()
         }
     }

@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/KJump.iml" filepath="$PROJECT_DIR$/KJump.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/KJump.iml" filepath="$PROJECT_DIR$/.idea/modules/KJump.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/KJump_main.iml" filepath="$PROJECT_DIR$/.idea/modules/KJump_main.iml" group="KJump" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/KJump_test.iml" filepath="$PROJECT_DIR$/.idea/modules/KJump_test.iml" group="KJump" />
     </modules>
   </component>
 </project>
