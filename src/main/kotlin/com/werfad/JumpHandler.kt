@@ -31,6 +31,10 @@ object JumpHandler : TypedActionHandler {
                 val allOffsets = e.findAllInVisibleArea(c).sortedBy { Math.abs(it - e.caretModel.offset) }
                 if (allOffsets.isEmpty()) {
                     stop()
+                } else if (allOffsets.size == 1) {
+                    // only one found, just jump to it
+                    e.caretModel.moveToOffset(allOffsets[0])
+                    stop()
                 }
 
                 val tags = KeyTagsGenerator.createTagsTree(allOffsets.size, "abcdefghijklmnopqrstuvwxyz;")
