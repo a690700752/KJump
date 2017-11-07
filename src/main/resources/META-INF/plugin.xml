@@ -6,16 +6,16 @@
     A simplify plugin ported from vim-EasyMotion plugin for Intellij Platform IDE. And can be integrated with IdeaVim.<br>
     <br>
     There are no default activated shortcut.
-    You can assign KJump activation shortcuts in Settings->Keymap->KJump menu, such as <c-,> <c-;> etc, 
+    You can assign KJump activation shortcuts in Settings->Keymap->KJump menu, such as &lt;c-,&gt; &lt;c-;&gt; etc,
     or integrate with IdeaVim by add below section in ~/.ideavimrc:<br>
-    nmap <leader><leader>s :action KJumpAction<cr>
+    nmap &lt;leader&gt;&lt;leader&gt;s :action KJumpAction<cr>
     <br>
     ]]></description>
 
 
     <change-notes><![CDATA[
-        * 2017-11-6 v0.0.2 compat with IntelliJ Platform Products<br>
-        * 2017-11-3 v0.0.1 initial release<br>
+        * v0.0.2 compat with IntelliJ Platform Products<br>
+        * v0.0.1 initial release<br>
     ]]>
     </change-notes>
 
