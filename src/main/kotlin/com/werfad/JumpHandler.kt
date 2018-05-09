@@ -13,8 +13,8 @@ import com.werfad.finder.Word0Finder
 import com.werfad.utils.getVisibleRangeOffset
 
 object JumpHandler : TypedActionHandler {
-    val MODE_CHAR = 0
-    val MODE_WORD = 1
+    val MODE_CHAR1 = 0
+    val MODE_WORD0 = 1
 
     private lateinit var mOldTypedHandler: TypedActionHandler
     private var mOldEscActionHandler: EditorActionHandler? = null
@@ -62,7 +62,7 @@ object JumpHandler : TypedActionHandler {
 
     /**
      * start search mode
-     * @param mode mode enum, see [MODE_CHAR] and [MODE_WORD]
+     * @param mode mode enum, see [MODE_CHAR1] and [MODE_WORD0]
      */
     fun start(e: Editor, mode: Int) {
         if (!isStart) {
@@ -77,8 +77,8 @@ object JumpHandler : TypedActionHandler {
             manager.setActionHandler(IdeActions.ACTION_EDITOR_ESCAPE, escActionHandler)
 
             finder = when (mode) {
-                MODE_CHAR -> Char1Finder()
-                MODE_WORD -> Word0Finder()
+                MODE_CHAR1 -> Char1Finder()
+                MODE_WORD0 -> Word0Finder()
                 else -> throw Exception("Invalid start mode: $mode .")
             }
 
