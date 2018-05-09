@@ -8,10 +8,12 @@ There are no default activated shortcuts. You can assign KJump activation shortc
 nmap <leader><leader>s :action KJumpAction
 nmap <leader><leader>w :action KJumpAction.Word0
 nmap <leader><leader>l :action KJumpAction.Line
+// more action see table below
 ```
 
-| Name         | Action            | Desc                                             |
-|--------------|-------------------|--------------------------------------------------|
-| KJump        | KJumpAction       | Input 1 character and jump to any same character |
-| KJump Word 0 | KJumpAction.Word0 | Jump to any word.                                |
-| KJump Line   | KJumpAction Line  | Jump to any line.                                |
+| Name         | Action            | Desc                                                              |
+|--------------|-------------------|-------------------------------------------------------------------|
+| KJump        | KJumpAction       | Input 1 character and jump to any same character.                 |
+| KJump Word 0 | KJumpAction.Word0 | Jump to any word.                                                 |
+| KJump Word 1 | KJumpAction.Word1 | Input 1 character and jump to any word start with this character. |
+| KJump Line   | KJumpAction Line  | Jump to any line.                                                 |
