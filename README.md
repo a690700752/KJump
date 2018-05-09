@@ -6,4 +6,12 @@ There are no default activated shortcuts. You can assign KJump activation shortc
 
 ```vimrc
 nmap <leader><leader>s :action KJumpAction
+nmap <leader><leader>w :action KJumpAction.Word0
+nmap <leader><leader>l :action KJumpAction.Line
 ```
+
+| Name         | Action            | Desc                                             |
+|--------------|-------------------|--------------------------------------------------|
+| KJump        | KJumpAction       | Input 1 character and jump to any same character |
+| KJump Word 0 | KJumpAction.Word0 | Jump to any word.                                |
+| KJump Line   | KJumpAction Line  | Jump to any line.                                |

@@ -9,11 +9,13 @@
     You can assign KJump activation shortcuts in Settings->Keymap->KJump menu, such as &lt;c-,&gt; &lt;c-;&gt; etc,
     or integrate with IdeaVim by add below section in ~/.ideavimrc:<br>
     nmap &lt;leader&gt;&lt;leader&gt;s :action KJumpAction<cr>
+    <a href="https://github.com/a690700752/KJump">Jump Github to see more.</a><br>
     <br>
     ]]></description>
 
 
     <change-notes><![CDATA[
+        * v0.0.3 add features: word0 jump and line jump<br>
         * v0.0.2 compat with IntelliJ Platform Products<br>
         * v0.0.1 initial release<br>
     ]]>
@@ -37,7 +39,7 @@
     <actions>
         <!-- Add your actions here -->
         <action id="KJumpAction" class="com.werfad.KJumpAction" text="KJump"
-                description="Input 1 character and jump to any char."/>
+                description="Input 1 character and jump to any same character."/>
         <action id="KJumpAction.Word0" class="com.werfad.Word0Action" text="KJump Word 0"
                 description="Jump to any word."/>
         <action id="KJumpAction.Line" class="com.werfad.LineAction" text="KJump Line"
