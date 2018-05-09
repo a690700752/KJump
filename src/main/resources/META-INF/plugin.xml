@@ -36,8 +36,7 @@
 
     <actions>
         <!-- Add your actions here -->
-        <action id="KJumpAction" class="com.werfad.KJumpAction" text="KJump" description="KJump">
-        </action>
+        <action id="KJumpAction" class="com.werfad.KJumpAction" text="KJump" description="KJump"/>
     </actions>
 
 </idea-plugin>

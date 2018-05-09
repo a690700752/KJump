@@ -7,70 +7,29 @@ import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.editor.actionSystem.EditorActionHandler
 import com.intellij.openapi.editor.actionSystem.EditorActionManager
 import com.intellij.openapi.editor.actionSystem.TypedActionHandler
-import com.werfad.utils.findAllInVisibleArea
+import com.werfad.finder.Char1Finder
+import com.werfad.finder.Finder
+import com.werfad.finder.Word0Finder
+import com.werfad.utils.getVisibleRangeOffset
 
 object JumpHandler : TypedActionHandler {
+    val MODE_CHAR = 0
+    val MODE_WORD = 1
+
     private lateinit var mOldTypedHandler: TypedActionHandler
     private var mOldEscActionHandler: EditorActionHandler? = null
     private val mMarksCanvas = MarksCanvas()
 
-    private val STATE_WAIT_SEARCH_CHAR = 0
-    private val STATE_WAIT_KEY = 1
-    private var state = 0
     private var isStart = false
 
-    private lateinit var mMarks: List<Mark>
+    private var finder: Finder = Char1Finder()
+
+    private var lastMarks = emptyList<Mark>()
+    private var isCanvasAdded = false
 
     override fun execute(e: Editor, c: Char, dc: DataContext) {
-        when (state) {
-            STATE_WAIT_SEARCH_CHAR -> {
-                mMarksCanvas.sync(e)
-                e.contentComponent.add(mMarksCanvas)
-                e.contentComponent.repaint()
-
-                val allOffsets = e.findAllInVisibleArea(c).sortedBy { Math.abs(it - e.caretModel.offset) }
-                if (allOffsets.isEmpty()) {
-                    stop()
-                } else if (allOffsets.size == 1) {
-                    // only one found, just jump to it
-                    e.caretModel.moveToOffset(allOffsets[0])
-                    stop()
-                } else {
-                    val tags = KeyTagsGenerator.createTagsTree(allOffsets.size, "abcdefghijklmnopqrstuvwxyz;")
-
-                    mMarks = allOffsets.mapIndexed { index, offset -> Mark(tags[index], offset) }
-                    mMarksCanvas.setData(mMarks)
-                    state = STATE_WAIT_KEY
-                }
-            }
-            STATE_WAIT_KEY -> {
-                mMarks = filterMarksByKey(c)
-                if (mMarks.isEmpty()) {
-                    stop()
-                } else if (mMarks.size == 1) {
-                    e.caretModel.moveToOffset(mMarks[0].offset)
-                    stop()
-                } else {
-                    mMarksCanvas.setData(mMarks)
-                }
-            }
-        }
-    }
-
-    private fun filterMarksByKey(c: Char): List<Mark> {
-        val newMarks = ArrayList<Mark>()
-        for (mark in mMarks) {
-            if (mark.keyTag[0] == c) {
-                if (mark.keyTag.length == 1) {
-                    newMarks.add(mark)
-                    return newMarks
-                } else {
-                    mark.keyTag = mark.keyTag.substring(1, mark.keyTag.length)
-                    newMarks.add(mark)
-                }
-            }
-        }
-        return newMarks
+        lastMarks = finder.input(e, c, lastMarks)
+        jumpOrShowCanvas(e, lastMarks)
     }
 
     private val escActionHandler = object : EditorActionHandler() {
@@ -79,7 +38,33 @@ object JumpHandler : TypedActionHandler {
         }
     }
 
-    fun start() {
+    private fun jumpOrShowCanvas(e: Editor, marks: List<Mark>) {
+        when {
+            marks.isEmpty() -> {
+                stop()
+            }
+            marks.size == 1 -> {
+                // only one found, just jump to it
+                e.caretModel.moveToOffset(marks[0].offset)
+                stop()
+            }
+            else -> {
+                if (!isCanvasAdded) {
+                    mMarksCanvas.sync(e)
+                    e.contentComponent.add(mMarksCanvas)
+                    e.contentComponent.repaint()
+                    isCanvasAdded = true
+                }
+                mMarksCanvas.setData(marks)
+            }
+        }
+    }
+
+    /**
+     * start search mode
+     * @param mode mode enum, see [MODE_CHAR] and [MODE_WORD]
+     */
+    fun start(e: Editor, mode: Int) {
         if (!isStart) {
             isStart = true
             val manager = EditorActionManager.getInstance()
@@ -91,7 +76,19 @@ object JumpHandler : TypedActionHandler {
             mOldEscActionHandler = manager.getActionHandler(IdeActions.ACTION_EDITOR_ESCAPE)
             manager.setActionHandler(IdeActions.ACTION_EDITOR_ESCAPE, escActionHandler)
 
-            state = STATE_WAIT_SEARCH_CHAR
+            finder = when (mode) {
+                MODE_CHAR -> Char1Finder()
+                MODE_WORD -> Word0Finder()
+                else -> throw Exception("Invalid start mode: $mode .")
+            }
+
+            val visibleBorderOffset = e.getVisibleRangeOffset()
+            val visibleString = e.document.getText(visibleBorderOffset)
+            val marks = finder.start(e, visibleString, visibleBorderOffset)
+            if (marks != null) {
+                lastMarks = marks
+                jumpOrShowCanvas(e, lastMarks)
+            }
         }
     }
 
@@ -108,6 +105,7 @@ object JumpHandler : TypedActionHandler {
                 parent.remove(mMarksCanvas)
                 parent.repaint()
             }
+            isCanvasAdded = false
         }
     }
 }

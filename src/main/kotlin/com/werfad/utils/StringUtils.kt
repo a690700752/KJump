@@ -1,6 +1,7 @@
 package com.werfad.utils
 
 import java.util.*
+import kotlin.collections.ArrayList
 
 fun String.findAll(c: Char): List<Int> {
     val res = ArrayList<Int>()
@@ -20,4 +21,12 @@ fun String.findAll(find: String): List<Int> {
         index = indexOf(find, index + 1)
     }
     return res
+}
+
+fun String.findAllRegex(pattern: String): List<Int> {
+    val regex = Regex(pattern)
+
+    return regex.findAll(this).map { matchResult ->
+        matchResult.range.first
+    }.toList()
 }
