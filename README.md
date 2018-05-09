@@ -16,4 +16,4 @@ nmap <leader><leader>l :action KJumpAction.Line
 | KJump        | KJumpAction       | Input 1 character and jump to any same character.                 |
 | KJump Word 0 | KJumpAction.Word0 | Jump to any word.                                                 |
 | KJump Word 1 | KJumpAction.Word1 | Input 1 character and jump to any word start with this character. |
-| KJump Line   | KJumpAction Line  | Jump to any line.                                                 |
+| KJump Line   | KJumpAction.Line  | Jump to any line.                                                 |
