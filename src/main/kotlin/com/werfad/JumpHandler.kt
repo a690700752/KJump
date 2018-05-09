@@ -9,12 +9,14 @@ import com.intellij.openapi.editor.actionSystem.EditorActionManager
 import com.intellij.openapi.editor.actionSystem.TypedActionHandler
 import com.werfad.finder.Char1Finder
 import com.werfad.finder.Finder
+import com.werfad.finder.LineFinder
 import com.werfad.finder.Word0Finder
 import com.werfad.utils.getVisibleRangeOffset
 
 object JumpHandler : TypedActionHandler {
     val MODE_CHAR1 = 0
     val MODE_WORD0 = 1
+    val MODE_LINE = 2
 
     private lateinit var mOldTypedHandler: TypedActionHandler
     private var mOldEscActionHandler: EditorActionHandler? = null
@@ -79,6 +81,7 @@ object JumpHandler : TypedActionHandler {
             finder = when (mode) {
                 MODE_CHAR1 -> Char1Finder()
                 MODE_WORD0 -> Word0Finder()
+                MODE_LINE -> LineFinder()
                 else -> throw Exception("Invalid start mode: $mode .")
             }
 

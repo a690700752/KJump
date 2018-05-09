@@ -37,9 +37,11 @@
     <actions>
         <!-- Add your actions here -->
         <action id="KJumpAction" class="com.werfad.KJumpAction" text="KJump"
-                description="Input 1 character and goto it."/>
+                description="Input 1 character and jump to any char."/>
         <action id="KJumpAction.Word0" class="com.werfad.Word0Action" text="KJump Word 0"
-                description="Input 0 character and goto it."/>
+                description="Jump to any word."/>
+        <action id="KJumpAction.Line" class="com.werfad.LineAction" text="KJump Line"
+                description="Jump to any line."/>
     </actions>
 
 </idea-plugin>
