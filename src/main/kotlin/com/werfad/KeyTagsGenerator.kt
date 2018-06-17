@@ -4,7 +4,7 @@ import java.util.*
 
 object KeyTagsGenerator {
 
-    fun createTagsTree(targetCount: Int, keys: String): List<String> {
+    fun createTagsTree(targetCount: Int, keys: String = UserConfig.getInstance().getCharacters()): List<String> {
         val res = ArrayList<String>()
         _createTagsTree(targetCount, keys, "", res)
         return res

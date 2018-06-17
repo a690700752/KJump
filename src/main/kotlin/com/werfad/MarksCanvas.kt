@@ -7,6 +7,7 @@ import java.awt.*
 import javax.swing.JComponent
 
 class MarksCanvas : JComponent() {
+    private val config = UserConfig.getInstance()
     private lateinit var mMarks: List<Mark>
     private lateinit var mSortedMarks: List<Mark>
     private lateinit var mEditor: Editor
@@ -38,12 +39,12 @@ class MarksCanvas : JComponent() {
         }
 
         mSortedMarks.forEach {
-            g2d.color = Color(0x007ACC)
+            g2d.color = Color(config.getBgColor())
             g2d.fillRect(it.markStart!!.x - x, it.markStart!!.y - y,
                     it.strBounds!!.width, it.strBounds!!.height)
 
             g2d.font = mFont
-            g2d.color = Color.WHITE
+            g2d.color = Color(config.getFontColor())
             g2d.drawString(it.keyTag, it.markStart!!.x - x,
                     it.markStart!!.y - y + it.strBounds!!.height - mFontMetrics.descent)
         }

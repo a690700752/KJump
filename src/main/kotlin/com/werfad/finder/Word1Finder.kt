@@ -2,7 +2,6 @@ package com.werfad.finder
 
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.util.TextRange
-import com.werfad.DEFAULT_TAGS_KEYMAP
 import com.werfad.KeyTagsGenerator
 import com.werfad.Mark
 import com.werfad.utils.findAllRegex
@@ -29,7 +28,7 @@ class Word1Finder : Finder {
                         .filter { s[it] == c }
                         .map { it + visibleRange.startOffset }
                         .sortedBy { Math.abs(it - e.caretModel.offset) }
-                val tags = KeyTagsGenerator.createTagsTree(offsets.size, DEFAULT_TAGS_KEYMAP)
+                val tags = KeyTagsGenerator.createTagsTree(offsets.size)
                 state = STATE_WAIT_KEY
                 offsets.mapIndexed { index, offset ->
                     Mark(tags[index], offset)

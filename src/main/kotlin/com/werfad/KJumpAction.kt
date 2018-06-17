@@ -41,7 +41,7 @@ class Word1Action : DumbAwareAction() {
     }
 }
 
-class LineAction: DumbAwareAction() {
+class LineAction : DumbAwareAction() {
     override fun update(e: AnActionEvent) {
         val editor = e.getData(CommonDataKeys.EDITOR)
         e.presentation.isEnabled = editor != null

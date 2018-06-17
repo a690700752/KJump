@@ -1,8 +1,5 @@
 package com.werfad.utils
 
-import java.util.*
-import kotlin.collections.ArrayList
-
 fun String.findAll(c: Char): List<Int> {
     val res = ArrayList<Int>()
     var index = indexOf(c)

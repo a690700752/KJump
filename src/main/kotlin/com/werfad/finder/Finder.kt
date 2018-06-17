@@ -14,7 +14,7 @@ interface Finder {
     /**
      * @return same with [start]
      */
-    fun input(e:Editor, c: Char, lastMarks: List<Mark>): List<Mark>
+    fun input(e: Editor, c: Char, lastMarks: List<Mark>): List<Mark>
 }
 
 /**
