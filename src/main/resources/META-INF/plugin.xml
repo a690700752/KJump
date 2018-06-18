@@ -15,6 +15,7 @@
 
 
     <change-notes><![CDATA[
+        * v0.0.4 add user config for characters and colors. <br/>
         * v0.0.3 add features: word0 jump, word1 jump, and line jump<br>
         * v0.0.2 compat with IntelliJ Platform Products<br>
         * v0.0.1 initial release<br>
