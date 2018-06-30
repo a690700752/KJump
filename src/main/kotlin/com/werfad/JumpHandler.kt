@@ -12,9 +12,10 @@ import com.werfad.utils.getVisibleRangeOffset
 
 object JumpHandler : TypedActionHandler {
     val MODE_CHAR1 = 0
-    val MODE_WORD0 = 1
-    val MODE_WORD1 = 2
-    val MODE_LINE = 3
+    val MODE_CHAR2 = 1
+    val MODE_WORD0 = 2
+    val MODE_WORD1 = 3
+    val MODE_LINE = 4
 
     private lateinit var mOldTypedHandler: TypedActionHandler
     private var mOldEscActionHandler: EditorActionHandler? = null
@@ -28,8 +29,11 @@ object JumpHandler : TypedActionHandler {
     private var isCanvasAdded = false
 
     override fun execute(e: Editor, c: Char, dc: DataContext) {
-        lastMarks = finder.input(e, c, lastMarks)
-        jumpOrShowCanvas(e, lastMarks)
+        val marks = finder.input(e, c, lastMarks)
+        if (marks != null) {
+            lastMarks = marks
+            jumpOrShowCanvas(e, lastMarks)
+        }
     }
 
     private val escActionHandler = object : EditorActionHandler() {
@@ -78,6 +82,7 @@ object JumpHandler : TypedActionHandler {
 
             finder = when (mode) {
                 MODE_CHAR1 -> Char1Finder()
+                MODE_CHAR2 -> Char2Finder()
                 MODE_WORD0 -> Word0Finder()
                 MODE_WORD1 -> Word1Finder()
                 MODE_LINE -> LineFinder()
