@@ -4,6 +4,7 @@ import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.util.TextRange
 import com.werfad.KeyTagsGenerator
 import com.werfad.Mark
+import com.werfad.UserConfig
 import com.werfad.utils.findAll
 
 class Char2Finder : Finder {
@@ -11,6 +12,7 @@ class Char2Finder : Finder {
     private val STATE_WAIT_SEARCH_CHAR2 = 1
     private val STATE_WAIT_KEY = 2
     private var state = STATE_WAIT_SEARCH_CHAR1
+    private val config = UserConfig.getDataBean()
 
     private lateinit var s: String
     private lateinit var visibleRange: TextRange
@@ -32,7 +34,7 @@ class Char2Finder : Finder {
                 null
             }
             STATE_WAIT_SEARCH_CHAR2 -> {
-                val offsets = s.findAll("" + firstChar + c)
+                val offsets = s.findAll("" + firstChar + c, !config.caseSensitive)
                         .map { it + visibleRange.startOffset }
                         .sortedBy { Math.abs(it - e.caretModel.offset) }
                 val tags = KeyTagsGenerator.createTagsTree(offsets.size)

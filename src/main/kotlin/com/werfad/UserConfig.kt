@@ -11,30 +11,6 @@ import com.intellij.util.xmlb.XmlSerializerUtil
 class UserConfig : PersistentStateComponent<UserConfig.DataBean> {
     private val dataBean = DataBean()
 
-    fun setCharacters(s: String) {
-        dataBean.characters = s
-    }
-
-    fun getCharacters(): String {
-        return dataBean.characters
-    }
-
-    fun setFontColor(c: Int) {
-        dataBean.fontColor = c
-    }
-
-    fun getFontColor(): Int {
-        return dataBean.fontColor
-    }
-
-    fun setBgColor(c: Int) {
-        dataBean.bgColor = c
-    }
-
-    fun getBgColor(): Int {
-        return dataBean.bgColor
-    }
-
     override fun getState(): DataBean {
         return dataBean
     }
@@ -45,15 +21,21 @@ class UserConfig : PersistentStateComponent<UserConfig.DataBean> {
 
     data class DataBean(var characters: String = DEFAULT_CHARACTERS,
                         var fontColor: Int = DEFAULT_FONT_COLOR,
-                        var bgColor: Int = DEFAULT_BG_COLOR)
+                        var bgColor: Int = DEFAULT_BG_COLOR,
+                        var caseSensitive: Boolean = DEFAULT_CASE_SENSITIVE)
 
     companion object {
         const val DEFAULT_CHARACTERS = "abcdefghijklmnopqrstuvwxyz;"
         const val DEFAULT_FONT_COLOR = 0xFFFFFF
         const val DEFAULT_BG_COLOR = 0x007ACC
+        const val DEFAULT_CASE_SENSITIVE = false
 
         fun getInstance(): UserConfig {
             return ServiceManager.getService(UserConfig::class.java)
+        }
+
+        fun getDataBean(): DataBean {
+            return getInstance().dataBean
         }
     }
 }
