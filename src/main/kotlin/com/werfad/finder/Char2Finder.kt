@@ -34,7 +34,8 @@ class Char2Finder : Finder {
                 null
             }
             STATE_WAIT_SEARCH_CHAR2 -> {
-                val offsets = s.findAll("" + firstChar + c, !config.caseSensitive)
+                val ignoreCase = config.smartcase && firstChar.isLowerCase() && c.isLowerCase()
+                val offsets = s.findAll("" + firstChar + c, ignoreCase)
                         .map { it + visibleRange.startOffset }
                         .sortedBy { Math.abs(it - e.caretModel.offset) }
                 val tags = KeyTagsGenerator.createTagsTree(offsets.size)

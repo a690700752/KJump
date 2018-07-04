@@ -8,7 +8,7 @@ public class ConfigUI {
     private JTextField charactersTF;
     private JTextField fontColorTF;
     private JTextField bgTF;
-    private JCheckBox caseSensitiveCheckBox;
+    private JCheckBox smartcaseCheckBox;
 
     public JPanel getRootPanel() {
         return rootPanel;
@@ -48,12 +48,12 @@ public class ConfigUI {
         bgTF.setText(Integer.toHexString(c));
     }
 
-    public Boolean getCaseSensitive() {
-        return caseSensitiveCheckBox.isSelected();
+    public Boolean getSmartcase() {
+        return smartcaseCheckBox.isSelected();
     }
 
-    public void setCaseSensitive(boolean caseSensitive) {
-        caseSensitiveCheckBox.setSelected(caseSensitive);
+    public void setSmartcase(boolean caseSensitive) {
+        smartcaseCheckBox.setSelected(caseSensitive);
     }
 }
 

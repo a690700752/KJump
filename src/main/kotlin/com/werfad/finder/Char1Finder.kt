@@ -26,7 +26,8 @@ class Char1Finder : Finder {
     override fun input(e: Editor, c: Char, lastMarks: List<Mark>): List<Mark> {
         return when (state) {
             STATE_WAIT_SEARCH_CHAR -> {
-                val offsets = s.findAll(c, !config.caseSensitive)
+                val ignoreCase = config.smartcase && c.isLowerCase()
+                val offsets = s.findAll(c, ignoreCase)
                         .map { it + visibleRange.startOffset }
                         .sortedBy { Math.abs(it - e.caretModel.offset) }
                 val tags = KeyTagsGenerator.createTagsTree(offsets.size)

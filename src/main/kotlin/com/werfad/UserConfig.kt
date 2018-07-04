@@ -22,13 +22,13 @@ class UserConfig : PersistentStateComponent<UserConfig.DataBean> {
     data class DataBean(var characters: String = DEFAULT_CHARACTERS,
                         var fontColor: Int = DEFAULT_FONT_COLOR,
                         var bgColor: Int = DEFAULT_BG_COLOR,
-                        var caseSensitive: Boolean = DEFAULT_CASE_SENSITIVE)
+                        var smartcase: Boolean = DEFAULT_SMARTCASE)
 
     companion object {
         const val DEFAULT_CHARACTERS = "abcdefghijklmnopqrstuvwxyz;"
         const val DEFAULT_FONT_COLOR = 0xFFFFFF
         const val DEFAULT_BG_COLOR = 0x007ACC
-        const val DEFAULT_CASE_SENSITIVE = false
+        const val DEFAULT_SMARTCASE = true
 
         fun getInstance(): UserConfig {
             return ServiceManager.getService(UserConfig::class.java)

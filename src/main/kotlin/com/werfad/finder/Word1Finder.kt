@@ -26,8 +26,9 @@ class Word1Finder : Finder {
     override fun input(e: Editor, c: Char, lastMarks: List<Mark>): List<Mark> {
         return when (state) {
             STATE_WAIT_SEARCH_CHAR -> {
+                val ignoreCase = config.smartcase && c.isLowerCase()
                 var pattern = "\\b$c"
-                if (!config.caseSensitive) {
+                if (ignoreCase) {
                     pattern = "(?i)$pattern";
                 }
                 val offsets = s.findAllRegex(pattern)

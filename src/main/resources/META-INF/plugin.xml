@@ -15,7 +15,7 @@
 
 
     <change-notes><![CDATA[
-        * v0.0.5 add case sensitive and configuration item. <br/>
+        * v0.0.5 add smartcase feature. <br/>
         * v0.0.4 add user config for characters and colors. <br/>
         * v0.0.3 add features: word0 jump, word1 jump, and line jump<br>
         * v0.0.2 compat with IntelliJ Platform Products<br>
