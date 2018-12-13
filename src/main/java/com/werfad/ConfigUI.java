@@ -1,6 +1,7 @@
 package com.werfad;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
+
 import javax.swing.*;
 
 public class ConfigUI {
@@ -48,7 +49,7 @@ public class ConfigUI {
         bgTF.setText(Integer.toHexString(c));
     }
 
-    public Boolean getSmartcase() {
+    public Boolean isSmartcase() {
         return smartcaseCheckBox.isSelected();
     }
 
