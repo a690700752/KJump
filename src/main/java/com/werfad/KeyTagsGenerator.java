@@ -7,13 +7,13 @@ import java.util.HashMap;
 import java.util.List;
 
 public class KeyTagsGenerator {
-    public List<String> createTagsTree(int targetCount, String keys) {
+    public static List<String> createTagsTree(int targetCount, String keys) {
         List<String> res = new ArrayList<>();
         _createTagsTree(targetCount, keys, "", res);
         return res;
     }
 
-    private void _createTagsTree(int targetCount, String keys, String prefix, List<String> res) {
+    private static void _createTagsTree(int targetCount, String keys, String prefix, List<String> res) {
         int keysLen = keys.length();
         HashMap<Character, Integer> keysCountMap = new HashMap<Character, Integer>();
 

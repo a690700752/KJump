@@ -10,6 +10,7 @@ public final class KJumpConfigurable implements Configurable {
     private UserConfig.DataBean config;
     private ConfigUI ui;
 
+    @Override
     public boolean isModified() {
         return (!ui.getCharacters().equals(config.getCharacters()))
                 || (ui.getFontColor() == null)
@@ -20,10 +21,12 @@ public final class KJumpConfigurable implements Configurable {
     }
 
     @NotNull
+    @Override
     public String getDisplayName() {
         return "KJump";
     }
 
+    @Override
     public void apply() {
         config.setCharacters(ui.getCharacters());
 
@@ -36,11 +39,13 @@ public final class KJumpConfigurable implements Configurable {
         config.setSmartcase(ui.isSmartcase());
     }
 
+    @Override
     public void reset() {
         this.fillUI();
     }
 
     @Nullable
+    @Override
     public JComponent createComponent() {
         config = UserConfig.getDataBean();
         ui = new ConfigUI();

@@ -15,7 +15,7 @@ public interface Finder {
      * not null - can be locate some data, empty represent without any matches.
      */
     @Nullable
-    List<MarksCanvas.Mark> start(@NotNull Editor e, @NotNull String s, @NotNull TextRange textRange);
+    List<MarksCanvas.Mark> start(@NotNull Editor e, @NotNull String s, @NotNull TextRange visibleRange);
 
     /**
      * @return same with {@link #start(Editor, String, TextRange)}

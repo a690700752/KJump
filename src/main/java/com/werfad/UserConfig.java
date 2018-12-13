@@ -18,6 +18,7 @@ public final class UserConfig implements PersistentStateComponent<UserConfig.Dat
     private final UserConfig.DataBean dataBean = new UserConfig.DataBean();
 
     @NotNull
+    @Override
     public UserConfig.DataBean getState() {
         return this.dataBean;
     }
