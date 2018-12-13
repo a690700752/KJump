@@ -57,7 +57,7 @@ public class Word1Finder implements Finder {
                 for (int i = 0; i < offsets.size(); i++) {
                     res.add(new MarksCanvas.Mark(tags.get(i), offsets.get(i)));
                 }
-
+                state = STATE_WAIT_KEY;
                 return res;
             case STATE_WAIT_KEY:
                 return FinderHelper.matchInputAndCreateMarks(c, lastMarks);

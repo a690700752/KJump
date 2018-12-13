@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class KeyTagsGenerator {
+    // maybe has a math method
     public static List<String> createTagsTree(int targetCount, String keys) {
         List<String> res = new ArrayList<>();
         _createTagsTree(targetCount, keys, "", res);
