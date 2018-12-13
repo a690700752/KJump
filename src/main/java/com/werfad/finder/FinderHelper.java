@@ -12,7 +12,7 @@ public class FinderHelper {
      * @return Return the new marks whose start character is removed.
      */
     @NotNull
-    public static List<MarksCanvas.Mark> matchInputAndCreateMarks(char c, @NotNull List<MarksCanvas.Mark> marks) {
+    static List<MarksCanvas.Mark> matchInputAndCreateMarks(char c, @NotNull List<MarksCanvas.Mark> marks) {
         ArrayList<MarksCanvas.Mark> newMarks = new ArrayList<>();
 
         for (MarksCanvas.Mark mark : marks) {

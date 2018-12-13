@@ -15,7 +15,7 @@ public class KeyTagsGenerator {
 
     private static void _createTagsTree(int targetCount, String keys, String prefix, List<String> res) {
         int keysLen = keys.length();
-        HashMap<Character, Integer> keysCountMap = new HashMap<Character, Integer>();
+        HashMap<Character, Integer> keysCountMap = new HashMap<>();
 
         char[] chars = keys.toCharArray();
         for (char c : chars) {

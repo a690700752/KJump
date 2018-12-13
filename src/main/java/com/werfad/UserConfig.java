@@ -10,10 +10,10 @@ import org.jetbrains.annotations.NotNull;
 @State(name = "KJump", storages = {@Storage("KJump.xml")})
 public final class UserConfig implements PersistentStateComponent<UserConfig.DataBean> {
     @NotNull
-    public static final String DEFAULT_CHARACTERS = "abcdefghijklmnopqrstuvwxyz;";
-    public static final int DEFAULT_FONT_COLOR = 0xFFFFFF;
-    public static final int DEFAULT_BG_COLOR = 0x007ACC;
-    public static final boolean DEFAULT_SMARTCASE = true;
+    private static final String DEFAULT_CHARACTERS = "abcdefghijklmnopqrstuvwxyz;";
+    static final int DEFAULT_FONT_COLOR = 0xFFFFFF;
+    static final int DEFAULT_BG_COLOR = 0x007ACC;
+    private static final boolean DEFAULT_SMARTCASE = true;
 
     private final UserConfig.DataBean dataBean = new UserConfig.DataBean();
 
@@ -29,7 +29,7 @@ public final class UserConfig implements PersistentStateComponent<UserConfig.Dat
     }
 
     @NotNull
-    public static UserConfig getInstance() {
+    private static UserConfig getInstance() {
         return ServiceManager.getService(UserConfig.class);
     }
 
