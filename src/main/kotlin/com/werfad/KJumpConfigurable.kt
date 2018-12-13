@@ -11,7 +11,7 @@ class KJumpConfigurable : Configurable {
         return ui.characters != config.characters
                 || ui.fontColor != config.fontColor
                 || ui.bgColor != config.bgColor
-                || ui.smartcase != config.smartcase
+                || ui.smartcase != config.isSmartcase
     }
 
     override fun getDisplayName(): String {
@@ -26,7 +26,7 @@ class KJumpConfigurable : Configurable {
         config.bgColor =
                 if (ui.bgColor == null)
                     UserConfig.DEFAULT_BG_COLOR else ui.bgColor!!
-        config.smartcase = ui.smartcase
+        config.isSmartcase = ui.smartcase
     }
 
     override fun reset() {
@@ -44,6 +44,6 @@ class KJumpConfigurable : Configurable {
         ui.characters = config.characters
         ui.setFontColor(config.fontColor)
         ui.setBgColor(config.bgColor)
-        ui.smartcase = config.smartcase
+        ui.smartcase = config.isSmartcase
     }
 }
