@@ -100,5 +100,31 @@ public final class MarksCanvas extends JComponent {
             this.keyTag = keyTag;
             strBounds = null;
         }
+
+        public String getKeyTag() {
+            return keyTag;
+        }
+
+        public int getOffset() {
+            return offset;
+        }
+
+        @Nullable
+        public Rectangle getStrBounds() {
+            return strBounds;
+        }
+
+        public void setStrBounds(@Nullable Rectangle strBounds) {
+            this.strBounds = strBounds;
+        }
+
+        @Nullable
+        public Point getMarkStart() {
+            return markStart;
+        }
+
+        public void setMarkStart(@Nullable Point markStart) {
+            this.markStart = markStart;
+        }
     }
 }
