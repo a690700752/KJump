@@ -44,7 +44,7 @@ public class Char2Finder implements Finder {
                 return null;
             case STATE_WAIT_SEARCH_CHAR2:
                 boolean ignoreCase = config.isSmartcase() && Character.isLowerCase(firstChar) && Character.isLowerCase(c);
-                Pattern pattern = Pattern.compile((ignoreCase ? "(?i)" : "") + firstChar + c);
+                Pattern pattern = Pattern.compile((ignoreCase ? "(?i)" : "") + Pattern.quote("" + firstChar + c));
                 Matcher m = pattern.matcher(s);
 
                 List<Integer> offsets = new ArrayList<>();

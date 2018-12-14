@@ -37,7 +37,7 @@ public class Word1Finder implements Finder {
         switch (state) {
             case STATE_WAIT_SEARCH_CHAR:
                 boolean ignoreCase = config.isSmartcase() && Character.isLowerCase(c);
-                Pattern pattern = Pattern.compile((ignoreCase ? "(?i)" : "") + "\\b" + c);
+                Pattern pattern = Pattern.compile((ignoreCase ? "(?i)" : "") + "\\b" + Pattern.quote("" + c));
                 Matcher m = pattern.matcher(s);
 
                 List<Integer> offsets = new ArrayList<>();
