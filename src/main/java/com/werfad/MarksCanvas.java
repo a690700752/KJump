@@ -51,15 +51,16 @@ public final class MarksCanvas extends JComponent {
             });
         }
 
+        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER));
         for (Mark mark : mSortedMarks) {
-            g2d.setColor(new Color(config.getBgColor()));
+            g2d.setColor(new Color(config.getBgColor2(), true));
             assert mark.markStart != null;
             assert mark.strBounds != null;
             g2d.fillRect(mark.markStart.x - getX(), mark.markStart.y - getY(),
                     mark.strBounds.width, mark.strBounds.height);
 
             g2d.setFont(mFont);
-            g2d.setColor(new Color(config.getFontColor()));
+            g2d.setColor(new Color(config.getFontColor2(), true));
             g2d.drawString(mark.keyTag, mark.markStart.x - getX(),
                     mark.markStart.y - getY() + mark.strBounds.height - mFontMetrics.getDescent());
         }

@@ -26,7 +26,7 @@ public class ConfigUI {
     @Nullable
     public Integer getFontColor() {
         try {
-            return Integer.parseInt(fontColorTF.getText(), 16);
+            return Integer.parseUnsignedInt(fontColorTF.getText(), 16);
         } catch (NumberFormatException e) {
             return null;
         }
@@ -39,7 +39,7 @@ public class ConfigUI {
     @Nullable
     public Integer getBgColor() {
         try {
-            return Integer.parseInt(bgTF.getText(), 16);
+            return Integer.parseUnsignedInt(bgTF.getText(), 16);
         } catch (NumberFormatException e) {
             return null;
         }

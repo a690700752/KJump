@@ -11,8 +11,8 @@ import org.jetbrains.annotations.NotNull;
 public final class UserConfig implements PersistentStateComponent<UserConfig.DataBean> {
     @NotNull
     private static final String DEFAULT_CHARACTERS = "abcdefghijklmnopqrstuvwxyz;";
-    static final int DEFAULT_FONT_COLOR = 0xFFFFFF;
-    static final int DEFAULT_BG_COLOR = 0x007ACC;
+    static final int DEFAULT_FONT_COLOR = 0xFFFFFFFF;
+    static final int DEFAULT_BG_COLOR = 0xFF007ACC;
     private static final boolean DEFAULT_SMARTCASE = true;
 
     private final UserConfig.DataBean dataBean = new UserConfig.DataBean();
@@ -41,8 +41,8 @@ public final class UserConfig implements PersistentStateComponent<UserConfig.Dat
     public static final class DataBean {
         @NotNull
         private String characters = DEFAULT_CHARACTERS;
-        private int fontColor = DEFAULT_FONT_COLOR;
-        private int bgColor = DEFAULT_BG_COLOR;
+        private int fontColor2 = DEFAULT_FONT_COLOR;
+        private int bgColor2 = DEFAULT_BG_COLOR;
         private boolean smartcase = DEFAULT_SMARTCASE;
 
         @NotNull
@@ -54,20 +54,20 @@ public final class UserConfig implements PersistentStateComponent<UserConfig.Dat
             this.characters = characters;
         }
 
-        public int getFontColor() {
-            return fontColor;
+        public int getFontColor2() {
+            return fontColor2;
         }
 
-        public void setFontColor(int fontColor) {
-            this.fontColor = fontColor;
+        public void setFontColor2(int fontColor2) {
+            this.fontColor2 = fontColor2;
         }
 
-        public int getBgColor() {
-            return bgColor;
+        public int getBgColor2() {
+            return bgColor2;
         }
 
-        public void setBgColor(int bgColor) {
-            this.bgColor = bgColor;
+        public void setBgColor2(int bgColor2) {
+            this.bgColor2 = bgColor2;
         }
 
         public boolean isSmartcase() {
