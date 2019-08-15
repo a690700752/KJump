@@ -21,7 +21,7 @@ public class FinderHelper {
                     newMarks.add(mark);
                     return newMarks;
                 } else {
-                    mark.setKeyTag( mark.getKeyTag().substring(1));
+                    mark.advanceChar();
                     newMarks.add(mark);
                 }
             }

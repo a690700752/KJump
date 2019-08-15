@@ -9,20 +9,14 @@ import com.intellij.openapi.editor.actionSystem.EditorActionManager;
 import com.intellij.openapi.editor.actionSystem.TypedAction;
 import com.intellij.openapi.editor.actionSystem.TypedActionHandler;
 import com.intellij.openapi.util.TextRange;
-import com.werfad.finder.Char1Finder;
-import com.werfad.finder.Char2Finder;
-import com.werfad.finder.Finder;
-import com.werfad.finder.LineFinder;
-import com.werfad.finder.Word0Finder;
-import com.werfad.finder.Word1Finder;
+import com.werfad.finder.*;
 import com.werfad.utils.EditorUtils;
-
-import java.awt.Container;
-import java.util.Collections;
-import java.util.List;
-
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.awt.*;
+import java.util.Collections;
+import java.util.List;
 
 public final class JumpHandler implements TypedActionHandler {
     private static final JumpHandler INSTANCE = new JumpHandler();

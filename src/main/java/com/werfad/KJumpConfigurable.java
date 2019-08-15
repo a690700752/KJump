@@ -12,12 +12,15 @@ public final class KJumpConfigurable implements Configurable {
 
     @Override
     public boolean isModified() {
-        return (!ui.getCharacters().equals(config.getCharacters()))
-                || (ui.getFontColor() == null)
-                || (ui.getFontColor() != config.getFontColor2())
-                || (ui.getBgColor() == null)
-                || (ui.getBgColor() != config.getBgColor2())
-                || (ui.isSmartcase() != config.isSmartcase());
+        return (!ui.getCharacters().equals(config.getCharacters())) ||
+                ui.getHit1FontColor() == null ||
+                ui.getHit1FontColor() != config.getHit1Color() ||
+                ui.getHit2FontColors() == null ||
+                ui.getHit2FontColors()[0] != config.getHit2Color0() ||
+                ui.getHit2FontColors()[1] != config.getHit2Color1() ||
+                ui.getBgColor() == null ||
+                ui.getBgColor() != config.getBackgroundColor() ||
+                (ui.isSmartcase() != config.isSmartcase());
     }
 
     @NotNull
@@ -30,11 +33,21 @@ public final class KJumpConfigurable implements Configurable {
     public void apply() {
         config.setCharacters(ui.getCharacters());
 
-        Integer uiFontColor = ui.getFontColor();
-        config.setFontColor2(uiFontColor == null ? UserConfig.DEFAULT_FONT_COLOR : uiFontColor);
+
+        Integer hit1Color = ui.getHit1FontColor();
+        config.setHit1Color(hit1Color == null ? UserConfig.DEFAULT_FONT_COLOR : hit1Color);
+
+        Integer[] hit2Colors = ui.getHit2FontColors();
+        if (hit2Colors == null) {
+            config.setHit2Color0(UserConfig.DEFAULT_FONT_COLOR);
+            config.setHit2Color1(UserConfig.DEFAULT_FONT_COLOR);
+        } else {
+            config.setHit2Color0(hit2Colors[0] == null ? UserConfig.DEFAULT_FONT_COLOR : hit2Colors[0]);
+            config.setHit2Color1(hit2Colors[1] == null ? UserConfig.DEFAULT_FONT_COLOR : hit2Colors[1]);
+        }
 
         Integer uiBgColor = ui.getBgColor();
-        config.setBgColor2(uiBgColor == null ? UserConfig.DEFAULT_BG_COLOR : uiBgColor);
+        config.setBackgroundColor(uiBgColor == null ? UserConfig.DEFAULT_BG_COLOR : uiBgColor);
 
         config.setSmartcase(ui.isSmartcase());
     }
@@ -56,8 +69,9 @@ public final class KJumpConfigurable implements Configurable {
 
     private void fillUI() {
         ui.setCharacters(config.getCharacters());
-        ui.setFontColor(config.getFontColor2());
-        ui.setBgColor(config.getBgColor2());
+        ui.setHit1FontColor(config.getHit1Color());
+        ui.setHit2FontColors(config.getHit2Color0(), config.getHit2Color1());
+        ui.setBgColor(config.getBackgroundColor());
         ui.setSmartcase(config.isSmartcase());
     }
 }

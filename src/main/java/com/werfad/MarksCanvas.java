@@ -53,16 +53,35 @@ public final class MarksCanvas extends JComponent {
 
         g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER));
         for (Mark mark : mSortedMarks) {
-            g2d.setColor(new Color(config.getBgColor2(), true));
+            g2d.setColor(new Color(config.getBackgroundColor(), true));
             assert mark.markStart != null;
             assert mark.strBounds != null;
             g2d.fillRect(mark.markStart.x - getX(), mark.markStart.y - getY(),
                     mark.strBounds.width, mark.strBounds.height);
 
             g2d.setFont(mFont);
-            g2d.setColor(new Color(config.getFontColor2(), true));
-            g2d.drawString(mark.keyTag, mark.markStart.x - getX(),
-                    mark.markStart.y - getY() + mark.strBounds.height - mFontMetrics.getDescent());
+
+            int xInCanvas = mark.markStart.x - getX();
+            int yInCanvas = mark.markStart.y - getY() + mark.strBounds.height - mFontMetrics.getDescent();
+            if (mark.getLen() == 2) {
+                if (mark.getKeyTagIndex() == 0) {
+                    int midX = xInCanvas + mark.strBounds.width / 2;
+
+                    // first char
+                    g2d.setColor(new Color(config.getHit2Color0(), true));
+                    g2d.drawString(mark.keyTag.substring(0, 1), xInCanvas, yInCanvas);
+
+                    // second char
+                    g2d.setColor(new Color(config.getHit2Color1(), true));
+                    g2d.drawString(mark.keyTag.substring(1, 2), midX, yInCanvas);
+                } else {
+                    g2d.setColor(new Color(config.getHit2Color1(), true));
+                    g2d.drawString(mark.keyTag, xInCanvas, yInCanvas);
+                }
+            } else {
+                g2d.setColor(new Color(config.getHit1Color(), true));
+                g2d.drawString(mark.keyTag, xInCanvas, yInCanvas);
+            }
         }
 
         super.paint(g);
@@ -87,6 +106,8 @@ public final class MarksCanvas extends JComponent {
     public static class Mark {
         private String keyTag;
         private final int offset;
+        private final int len;
+        private int keyTagIndex;
         @Nullable
         private Rectangle strBounds;
         @Nullable
@@ -95,10 +116,13 @@ public final class MarksCanvas extends JComponent {
         public Mark(@NotNull String keyTag, int offset) {
             this.keyTag = keyTag;
             this.offset = offset;
+            len = keyTag.length();
+            keyTagIndex = 0;
         }
 
-        public void setKeyTag(String keyTag) {
-            this.keyTag = keyTag;
+        public void advanceChar() {
+            keyTag = keyTag.substring(1);
+            keyTagIndex++;
             strBounds = null;
         }
 
@@ -126,6 +150,14 @@ public final class MarksCanvas extends JComponent {
 
         public void setMarkStart(@Nullable Point markStart) {
             this.markStart = markStart;
+        }
+
+        public int getKeyTagIndex() {
+            return keyTagIndex;
+        }
+
+        public int getLen() {
+            return len;
         }
     }
 }

@@ -1,3 +1,7 @@
 plugins {
-    id "org.jetbrains.intellij" version "0.4.7"
+    id "org.jetbrains.intellij" version "0.4.10"
+}
+
+intellij {
+    intellij.updateSinceUntilBuild false //Disables updating since-build attribute in plugin.xml
 }
