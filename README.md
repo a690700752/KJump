@@ -1,7 +1,8 @@
 # KJump
+A simplify plugin ported from vim-EasyMotion plugin for Intellij Platform IDE. Can be integrated with IdeaVim.
+Support character, word, line jump.
 
-A simplify plugin ported from vim-EasyMotion plugin for Intellij Platform IDE. And can be integrated with IdeaVim.
-
+## Usage
 There are no default activated shortcuts. You can assign KJump activation shortcuts in `Settings->Keymap->KJump` menu, such as `<c-,>` `<c-;>` etc, or integrate with IdeaVim by add below section in ~/.ideavimrc:
 
 ```vimrc

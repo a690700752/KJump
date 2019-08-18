@@ -1,20 +1,21 @@
 <idea-plugin>
     <id>com.werfad</id>
     <name>KJump</name>
-    <version>0.0.6</version>
+    <version>1.0.0</version>
 
     <description><![CDATA[
     A simplify plugin ported from vim-EasyMotion plugin for Intellij Platform IDE. And can be integrated with IdeaVim.<br>
     <br>
-    There are no default activated shortcut.
+    Support character, word, line jump. There are no default activated shortcut.
     You can assign KJump activation shortcuts in Settings->Keymap->KJump menu, such as &lt;c-,&gt; &lt;c-;&gt; etc,
     or integrate with IdeaVim by add below section in ~/.ideavimrc:<br>
     nmap &lt;leader&gt;&lt;leader&gt;s :action KJumpAction<cr><br>
-    <a href="https://github.com/a690700752/KJump">Goto Github to see more.</a><br>
+    <a href="https://github.com/a690700752/KJump">Github see more usage</a><br>
     <br>
     ]]></description>
 
     <change-notes><![CDATA[
+        * v1.0.0 add color configure for each keystroke character. refactor to java <br/>
         * v0.0.5 add smartcase feature. <br/>
         * v0.0.4 add user config for characters and colors. <br/>
         * v0.0.3 add features: word0 jump, word1 jump, and line jump<br>
