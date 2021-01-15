@@ -18,10 +18,7 @@ public class Actions {
 
         @Override
         public void actionPerformed(@NotNull AnActionEvent e) {
-            Editor editor = e.getData(CommonDataKeys.EDITOR);
-            if (editor != null) {
-                JumpHandler.getInstance().start(editor, mode);
-            }
+            JumpHandler.getInstance().start(mode, e);
         }
     }
 
@@ -52,6 +49,12 @@ public class Actions {
     public static class LineAction extends BaseAction {
         {
             mode = JumpHandler.MODE_LINE;
+        }
+    }
+
+    public static class GotoDeclarationWord1Action extends BaseAction {
+        {
+            mode = JumpHandler.MODE_WORD1_DECLARATION;
         }
     }
 }
