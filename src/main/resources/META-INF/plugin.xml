@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>com.werfad</id>
     <name>KJump</name>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
 
     <description><![CDATA[
     A simplify plugin ported from vim-EasyMotion plugin for Intellij Platform IDE. And can be integrated with IdeaVim.<br>
@@ -15,6 +15,7 @@
     ]]></description>
 
     <change-notes><![CDATA[
+        * v1.0.1 add Word1GotoDeclaration jump <br/>
         * v1.0.0 add color configure for each keystroke character. refactor to java <br/>
         * v0.0.5 add smartcase feature. <br/>
         * v0.0.4 add user config for characters and colors. <br/>
@@ -50,6 +51,9 @@
                 description="Input 1 character and jump to any word start with this character."/>
         <action id="KJumpAction.Line" class="com.werfad.Actions$LineAction" text="KJump Line"
                 description="Jump to any line."/>
+        <action id="KJumpAction.Word1GotoDeclaration" class="com.werfad.Actions$GotoDeclarationWord1Action"
+                text="KJump Word 1 Goto Declaration"
+                description="Input 1 character and jump to declaration of any word start with this character."/>
     </actions>
 
 </idea-plugin>

@@ -1,7 +1,6 @@
 package com.werfad;
 
-import com.intellij.openapi.actionSystem.DataContext;
-import com.intellij.openapi.actionSystem.IdeActions;
+import com.intellij.openapi.actionSystem.*;
 import com.intellij.openapi.editor.Caret;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.actionSystem.EditorActionHandler;
@@ -17,6 +16,10 @@ import org.jetbrains.annotations.Nullable;
 import java.awt.*;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
+
+import static com.intellij.openapi.actionSystem.IdeActions.ACTION_GOTO_DECLARATION;
+
 
 public final class JumpHandler implements TypedActionHandler {
     private static final JumpHandler INSTANCE = new JumpHandler();
@@ -26,6 +29,7 @@ public final class JumpHandler implements TypedActionHandler {
     static final int MODE_WORD0 = 2;
     static final int MODE_WORD1 = 3;
     static final int MODE_LINE = 4;
+    static final int MODE_WORD1_DECLARATION = 5;
 
     private static TypedActionHandler mOldTypedHandler;
     private static EditorActionHandler mOldEscActionHandler;
@@ -34,6 +38,7 @@ public final class JumpHandler implements TypedActionHandler {
     private static boolean isStart;
 
     private static Finder finder;
+    private static Optional<Runnable> onJump = Optional.empty(); // Runnable that is called after jump
 
     private static List<MarksCanvas.Mark> lastMarks = Collections.emptyList();
     private static boolean isCanvasAdded = false;
@@ -50,7 +55,7 @@ public final class JumpHandler implements TypedActionHandler {
         }
     }
 
-    private EditorActionHandler escActionHandler = new EditorActionHandler() {
+    private final EditorActionHandler escActionHandler = new EditorActionHandler() {
         @Override
         protected void doExecute(@NotNull Editor editor, @Nullable Caret caret, DataContext dataContext) {
             stop();
@@ -64,6 +69,7 @@ public final class JumpHandler implements TypedActionHandler {
             // only one found, just jump to it
             e.getCaretModel().moveToOffset(marks.get(0).getOffset());
             stop();
+            onJump.orElse(() -> {}).run();
         } else {
             if (!isCanvasAdded) {
                 mMarksCanvas.sync(e);
@@ -82,45 +88,56 @@ public final class JumpHandler implements TypedActionHandler {
      *
      * @param mode mode enum, see {@link #MODE_CHAR1} {@link #MODE_CHAR2} etc
      */
-    public final void start(@NotNull Editor e, int mode) {
-        if (!isStart) {
-            isStart = true;
-            EditorActionManager manager = EditorActionManager.getInstance();
-            TypedAction typedAction = manager.getTypedAction();
+    public final void start(int mode, AnActionEvent anActionEvent) {
+        if (isStart) return;
+        isStart = true;
+        Editor editor = anActionEvent.getData(CommonDataKeys.EDITOR);
+        if (editor == null) return;
 
-            mOldTypedHandler = typedAction.getRawHandler();
-            typedAction.setupRawHandler(this);
+        EditorActionManager manager = EditorActionManager.getInstance();
+        TypedAction typedAction = manager.getTypedAction();
 
-            mOldEscActionHandler = manager.getActionHandler(IdeActions.ACTION_EDITOR_ESCAPE);
-            manager.setActionHandler(IdeActions.ACTION_EDITOR_ESCAPE, escActionHandler);
+        mOldTypedHandler = typedAction.getRawHandler();
+        typedAction.setupRawHandler(this);
 
-            switch (mode) {
-                case MODE_CHAR1:
-                    finder = new Char1Finder();
-                    break;
-                case MODE_CHAR2:
-                    finder = new Char2Finder();
-                    break;
-                case MODE_WORD0:
-                    finder = new Word0Finder();
-                    break;
-                case MODE_WORD1:
-                    finder = new Word1Finder();
-                    break;
-                case MODE_LINE:
-                    finder = new LineFinder();
-                    break;
-                default:
-                    throw new RuntimeException("Invalid start mode: " + mode);
-            }
+        mOldEscActionHandler = manager.getActionHandler(IdeActions.ACTION_EDITOR_ESCAPE);
+        manager.setActionHandler(IdeActions.ACTION_EDITOR_ESCAPE, escActionHandler);
 
-            TextRange visibleBorderOffset = EditorUtils.getVisibleRangeOffset(e);
-            String visibleString = e.getDocument().getText(visibleBorderOffset);
-            List<MarksCanvas.Mark> marks = finder.start(e, visibleString, visibleBorderOffset);
-            if (marks != null) {
-                lastMarks = marks;
-                this.jumpOrShowCanvas(e, lastMarks);
-            }
+        onJump = Optional.empty();
+
+        switch (mode) {
+            case MODE_CHAR1:
+                finder = new Char1Finder();
+                break;
+            case MODE_CHAR2:
+                finder = new Char2Finder();
+                break;
+            case MODE_WORD0:
+                finder = new Word0Finder();
+                break;
+            case MODE_WORD1:
+                finder = new Word1Finder();
+                break;
+            case MODE_LINE:
+                finder = new LineFinder();
+                break;
+            case MODE_WORD1_DECLARATION:
+                finder = new Word1Finder();
+                onJump = Optional.of(() -> ActionManager
+                        .getInstance()
+                        .getAction(ACTION_GOTO_DECLARATION)
+                        .actionPerformed(anActionEvent));
+                break;
+            default:
+                throw new RuntimeException("Invalid start mode: " + mode);
+        }
+
+        TextRange visibleBorderOffset = EditorUtils.getVisibleRangeOffset(editor);
+        String visibleString = editor.getDocument().getText(visibleBorderOffset);
+        List<MarksCanvas.Mark> marks = finder.start(editor, visibleString, visibleBorderOffset);
+        if (marks != null) {
+            lastMarks = marks;
+            this.jumpOrShowCanvas(editor, lastMarks);
         }
     }
 
