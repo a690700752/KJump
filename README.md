@@ -1,4 +1,6 @@
 # KJump
+<!-- Plugin description -->
+
 A simplify plugin ported from vim-EasyMotion plugin for Intellij Platform IDE. Can be integrated with IdeaVim.
 Support character, word, line jump.
 
@@ -18,3 +20,5 @@ nmap <leader><leader>l :action KJumpAction.Line<cr>
 | KJump Word 0 | KJumpAction.Word0 | Jump to any word.                                                 |
 | KJump Word 1 | KJumpAction.Word1 | Input 1 character and jump to any word start with this character. |
 | KJump Line   | KJumpAction.Line  | Jump to any line.                                                 |
+
+<!-- Plugin description end -->

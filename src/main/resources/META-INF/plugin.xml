@@ -1,46 +1,16 @@
 <idea-plugin>
     <id>com.werfad</id>
     <name>KJump</name>
-    <version>1.0.1</version>
 
-    <description><![CDATA[
-    A simplify plugin ported from vim-EasyMotion plugin for Intellij Platform IDE. And can be integrated with IdeaVim.<br>
-    <br>
-    Support character, word, line jump. There are no default activated shortcut.
-    You can assign KJump activation shortcuts in Settings->Keymap->KJump menu, such as &lt;c-,&gt; &lt;c-;&gt; etc,
-    or integrate with IdeaVim by add below section in ~/.ideavimrc:<br>
-    nmap &lt;leader&gt;&lt;leader&gt;s :action KJumpAction<cr><br>
-    <a href="https://github.com/a690700752/KJump">Github see more usage</a><br>
-    <br>
-    ]]></description>
-
-    <change-notes><![CDATA[
-        * v1.0.1 add Word1GotoDeclaration jump <br/>
-        * v1.0.0 add color configure for each keystroke character. refactor to java <br/>
-        * v0.0.5 add smartcase feature. <br/>
-        * v0.0.4 add user config for characters and colors. <br/>
-        * v0.0.3 add features: word0 jump, word1 jump, and line jump<br>
-        * v0.0.2 compat with IntelliJ Platform Products<br>
-        * v0.0.1 initial release<br>
-    ]]>
-    </change-notes>
-
-    <vendor url="https://github.com/a690700752/KJump">Github</vendor>
-    <depends>com.intellij.modules.lang</depends>
-    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
-    <idea-version since-build="145.0"/>
-
-    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
-         on how to target different products -->
+    <vendor url="https://github.com/a690700752/KJump">a690700752</vendor>
+    <depends>com.intellij.modules.platform</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <!-- Add your extensions here -->
         <applicationService serviceImplementation="com.werfad.UserConfig"/>
         <applicationConfigurable instance="com.werfad.KJumpConfigurable"/>
     </extensions>
 
     <actions>
-        <!-- Add your actions here -->
         <action id="KJumpAction" class="com.werfad.Actions$KJumpAction" text="KJump"
                 description="Input 1 character and jump to any same character."/>
         <action id="KJumpAction.Char2" class="com.werfad.Actions$Char2Action" text="KJump Char 2"
