@@ -27,7 +27,7 @@ class Char1Finder : Finder {
         return when (state) {
             STATE_WAIT_SEARCH_CHAR -> {
                 val caretOffset = e.caretModel.offset
-                val offsets = s.findAll(c, true)
+                val offsets = s.findAll(c, c.isLowerCase())
                     .map { it + visibleRange.startOffset }
                     .sortedBy { abs(it - caretOffset) }
                     .toList()

@@ -26,7 +26,9 @@ class Word1Finder : Finder {
         return when (state) {
             STATE_WAIT_SEARCH_CHAR -> {
                 val cOffset = e.caretModel.offset
-                val offsets = Regex("(?i)\\b" + Regex.escape("" + c))
+                var find = if (c.isLowerCase()) "(?i)" else ""
+                find += "\\b" + Regex.escape("" + c)
+                val offsets = Regex(find)
                     .findAll(s)
                     .map { it.range.first + visibleRange.startOffset }
                     .sortedBy { abs(cOffset - it) }
