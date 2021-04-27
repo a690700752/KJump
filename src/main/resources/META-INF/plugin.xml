@@ -11,17 +11,17 @@
     </extensions>
 
     <actions>
-        <action id="KJumpAction" class="com.werfad.Actions$KJumpAction" text="KJump"
+        <action id="KJumpAction" class="com.werfad.KJumpAction" text="KJump"
                 description="Input 1 character and jump to any same character."/>
-        <action id="KJumpAction.Char2" class="com.werfad.Actions$Char2Action" text="KJump Char 2"
+        <action id="KJumpAction.Char2" class="com.werfad.Char2Action" text="KJump Char 2"
                 description="Input 2 character and jump to any same character."/>
-        <action id="KJumpAction.Word0" class="com.werfad.Actions$Word0Action" text="KJump Word 0"
+        <action id="KJumpAction.Word0" class="com.werfad.Word0Action" text="KJump Word 0"
                 description="Jump to any word."/>
-        <action id="KJumpAction.Word1" class="com.werfad.Actions$Word1Action" text="KJump Word 1"
+        <action id="KJumpAction.Word1" class="com.werfad.Word1Action" text="KJump Word 1"
                 description="Input 1 character and jump to any word start with this character."/>
-        <action id="KJumpAction.Line" class="com.werfad.Actions$LineAction" text="KJump Line"
+        <action id="KJumpAction.Line" class="com.werfad.LineAction" text="KJump Line"
                 description="Jump to any line."/>
-        <action id="KJumpAction.Word1GotoDeclaration" class="com.werfad.Actions$GotoDeclarationWord1Action"
+        <action id="KJumpAction.Word1GotoDeclaration" class="com.werfad.GotoDeclarationWord1Action"
                 text="KJump Word 1 Goto Declaration"
                 description="Input 1 character and jump to declaration of any word start with this character."/>
     </actions>

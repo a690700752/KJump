@@ -1,0 +1,125 @@
+package com.werfad
+
+import com.intellij.openapi.actionSystem.*
+import com.intellij.openapi.editor.Caret
+import com.intellij.openapi.editor.Editor
+import com.intellij.openapi.editor.actionSystem.EditorActionHandler
+import com.intellij.openapi.editor.actionSystem.EditorActionManager
+import com.intellij.openapi.editor.actionSystem.TypedAction
+import com.intellij.openapi.editor.actionSystem.TypedActionHandler
+import com.werfad.finder.*
+import com.werfad.utils.getVisibleRangeOffset
+
+object JumpHandler : TypedActionHandler {
+    const val MODE_CHAR1 = 0
+    const val MODE_CHAR2 = 1
+    const val MODE_WORD0 = 2
+    const val MODE_WORD1 = 3
+    const val MODE_LINE = 4
+    const val MODE_WORD1_DECLARATION = 5
+
+    private var mOldTypedHandler: TypedActionHandler? = null
+    private var mOldEscActionHandler: EditorActionHandler? = null
+    private val mMarksCanvas = MarksCanvas()
+    private var isStart = false
+    private lateinit var finder: Finder
+    private var onJump: (() -> Unit)? = null // Runnable that is called after jump
+    private var lastMarks: List<MarksCanvas.Mark> = emptyList()
+    private var isCanvasAdded = false
+
+    override fun execute(e: Editor, c: Char, dc: DataContext) {
+        val marks = finder.input(e, c, lastMarks)
+        if (marks != null) {
+            lastMarks = marks
+            jumpOrShowCanvas(e, lastMarks)
+        }
+    }
+
+    private val escActionHandler: EditorActionHandler = object : EditorActionHandler() {
+        override fun doExecute(editor: Editor, caret: Caret?, dataContext: DataContext) {
+            stop()
+        }
+    }
+
+    private fun jumpOrShowCanvas(e: Editor, marks: List<MarksCanvas.Mark>) {
+        when {
+            marks.isEmpty() -> {
+                stop()
+            }
+            marks.size == 1 -> {
+                // only one found, just jump to it
+                e.caretModel.moveToOffset(marks[0].offset)
+                stop()
+                onJump?.invoke()
+            }
+            else -> {
+                if (!isCanvasAdded) {
+                    mMarksCanvas.sync(e)
+                    e.contentComponent.add(mMarksCanvas)
+                    e.contentComponent.repaint()
+                    isCanvasAdded = true
+                }
+                mMarksCanvas.setData(marks)
+            }
+        }
+    }
+
+    /**
+     * start search mode
+     *
+     * @param mode mode enum, see [.MODE_CHAR1] [.MODE_CHAR2] etc
+     */
+    fun start(mode: Int, anActionEvent: AnActionEvent) {
+        if (isStart) return
+        isStart = true
+        val editor = anActionEvent.getData(CommonDataKeys.EDITOR) ?: return
+        val manager = EditorActionManager.getInstance()
+        val typedAction = TypedAction.getInstance()
+        mOldTypedHandler = typedAction.rawHandler
+        typedAction.setupRawHandler(this)
+        mOldEscActionHandler = manager.getActionHandler(IdeActions.ACTION_EDITOR_ESCAPE)
+        manager.setActionHandler(IdeActions.ACTION_EDITOR_ESCAPE, escActionHandler)
+        onJump = null
+        when (mode) {
+            MODE_CHAR1 -> finder = Char1Finder()
+            MODE_CHAR2 -> finder = Char2Finder()
+            MODE_WORD0 -> finder = Word0Finder()
+            MODE_WORD1 -> finder = Word1Finder()
+            MODE_LINE -> finder = LineFinder()
+            MODE_WORD1_DECLARATION -> {
+                finder = Word1Finder()
+                onJump = {
+                    ActionManager
+                        .getInstance()
+                        .getAction(IdeActions.ACTION_GOTO_DECLARATION)
+                        .actionPerformed(anActionEvent)
+                }
+            }
+            else -> throw RuntimeException("Invalid start mode: $mode")
+        }
+        val visibleBorderOffset = editor.getVisibleRangeOffset()
+        val visibleString = editor.document.getText(visibleBorderOffset)
+        val marks = finder.start(editor, visibleString, visibleBorderOffset)
+        if (marks != null) {
+            lastMarks = marks
+            jumpOrShowCanvas(editor, lastMarks)
+        }
+    }
+
+    private fun stop() {
+        if (isStart) {
+            isStart = false
+            val manager = EditorActionManager.getInstance()
+            TypedAction.getInstance().setupRawHandler(mOldTypedHandler!!)
+            if (mOldEscActionHandler != null) {
+                manager.setActionHandler(IdeActions.ACTION_EDITOR_ESCAPE, mOldEscActionHandler!!)
+            }
+            val parent = mMarksCanvas.parent
+            if (parent != null) {
+                parent.remove(mMarksCanvas)
+                parent.repaint()
+            }
+            isCanvasAdded = false
+        }
+    }
+}
