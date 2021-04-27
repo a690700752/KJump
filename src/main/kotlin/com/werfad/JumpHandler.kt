@@ -48,7 +48,17 @@ object JumpHandler : TypedActionHandler {
             }
             marks.size == 1 -> {
                 // only one found, just jump to it
-                e.caretModel.moveToOffset(marks[0].offset)
+                val caret = e.caretModel.currentCaret
+                if (caret.hasSelection()) {
+                    val downOffset =
+                        if (caret.selectionStart == caret.offset)
+                            caret.selectionEnd
+                        else
+                            caret.selectionStart
+                    caret.setSelection(downOffset, marks[0].offset)
+                }
+                caret.moveToOffset(marks[0].offset)
+
                 stop()
                 onJump?.invoke()
             }
