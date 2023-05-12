@@ -1,12 +1,16 @@
 package com.werfad
 
 import com.intellij.openapi.actionSystem.*
+import com.intellij.openapi.command.CommandProcessor
+import com.intellij.openapi.command.UndoConfirmationPolicy
 import com.intellij.openapi.editor.Caret
 import com.intellij.openapi.editor.Editor
+import com.intellij.openapi.editor.actionSystem.DocCommandGroupId
 import com.intellij.openapi.editor.actionSystem.EditorActionHandler
 import com.intellij.openapi.editor.actionSystem.EditorActionManager
 import com.intellij.openapi.editor.actionSystem.TypedAction
 import com.intellij.openapi.editor.actionSystem.TypedActionHandler
+import com.intellij.openapi.fileEditor.ex.IdeDocumentHistory
 import com.werfad.finder.*
 import com.werfad.utils.getVisibleRangeOffset
 
@@ -56,6 +60,21 @@ object JumpHandler : TypedActionHandler {
                         else
                             caret.selectionStart
                     caret.setSelection(downOffset, marks[0].offset)
+                }
+                // Shamelessly robbed from AceJump: https://github.com/acejump/AceJump/blob/99e0a5/src/main/kotlin/org/acejump/action/TagJumper.kt#L87
+                with(e) {
+                    project?.let { project ->
+                        CommandProcessor.getInstance().executeCommand(
+                            project, {
+                                with(IdeDocumentHistory.getInstance(project)) {
+                                    setCurrentCommandHasMoves()
+                                    includeCurrentCommandAsNavigation()
+                                    includeCurrentPlaceAsChangePlace()
+                                }
+                            }, "KJumpHistoryAppender", DocCommandGroupId.noneGroupId(document),
+                            UndoConfirmationPolicy.DO_NOT_REQUEST_CONFIRMATION, document
+                        )
+                    }
                 }
                 caret.moveToOffset(marks[0].offset)
 
