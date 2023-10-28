@@ -1,8 +1,9 @@
+<!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
     <id>com.werfad</id>
     <name>KJump</name>
-
     <vendor url="https://github.com/a690700752/KJump">a690700752</vendor>
+
     <depends>com.intellij.modules.platform</depends>
 
     <extensions defaultExtensionNs="com.intellij">
