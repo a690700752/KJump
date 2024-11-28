@@ -1,5 +1,6 @@
 package com.werfad
 
+import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.openapi.project.DumbAwareAction
@@ -12,6 +13,10 @@ abstract class BaseAction : DumbAwareAction() {
 
     override fun actionPerformed(e: AnActionEvent) {
         JumpHandler.start(getMode(), e)
+    }
+
+    override fun getActionUpdateThread(): ActionUpdateThread {
+        return ActionUpdateThread.EDT
     }
 
     abstract fun getMode(): Int
