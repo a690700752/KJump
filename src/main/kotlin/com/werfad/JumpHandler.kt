@@ -24,7 +24,7 @@ object JumpHandler : TypedActionHandler {
 
     private var mOldTypedHandler: TypedActionHandler? = null
     private var mOldEscActionHandler: EditorActionHandler? = null
-    private val mMarksCanvas = MarksCanvas()
+    private val mMarksCanvas: MarksCanvas by lazy { MarksCanvas() }
     private var isStart = false
     private lateinit var finder: Finder
     private var onJump: (() -> Unit)? = null // Runnable that is called after jump
