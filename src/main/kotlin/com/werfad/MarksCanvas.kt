@@ -74,5 +74,5 @@ class MarksCanvas : JComponent() {
         super.paint(g)
     }
 
-    class Mark(val keyTag: String, val offset: Int, val advanceIndex: Int = 0)
+    class Mark(val keyTag: String, val offset: Int, val advanceIndex: Int = 0, val editor: Editor? = null)
 }
