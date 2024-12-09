@@ -56,6 +56,7 @@ nmap <leader><leader>f :action KJumpAction.Word1<cr>
 | KJump Word 0        | KJumpAction.Word0       | Jump to any word                                                    |
 | KJump Word 1        | KJumpAction.Word1       | Input 1 character and jump to any word starting with this character |
 | KJump Line          | KJumpAction.Line        | Jump to any line                                                    |
+| KJump Global Line   | KJumpAction.GlobalLine  | Jump to any line across all visible editors                         |
 | KJump Global Word 0 | KJumpAction.GlobalWord0 | Jump to any word across all visible editors                         |
 
 <!-- Plugin description end -->

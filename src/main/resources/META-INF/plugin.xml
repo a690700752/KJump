@@ -27,6 +27,8 @@
                 description="Input 1 character and jump to declaration of any word start with this character."/>
         <action id="KJumpAction.GlobalWord0" class="com.werfad.GlobalWord0Action" text="KJump Global Word 0"
                 description="Jump to any word across all visible editors."/>
+        <action id="KJumpAction.GlobalLine" class="com.werfad.GlobalLineAction" text="KJump Global Line"
+                description="Jump to any line across editors."/>
     </actions>
 
 </idea-plugin>
