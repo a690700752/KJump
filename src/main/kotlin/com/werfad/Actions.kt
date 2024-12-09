@@ -45,3 +45,11 @@ class LineAction : BaseAction() {
 class GotoDeclarationWord1Action : BaseAction() {
     override fun getMode() = JumpHandler.MODE_WORD1_DECLARATION
 }
+
+class GlobalWord0Action : BaseAction() {
+    override fun getMode() = GlobalJumpHandler.MODE_WORD0
+
+    override fun actionPerformed(e: AnActionEvent) {
+        GlobalJumpHandler.start(getMode(), e)
+    }
+}

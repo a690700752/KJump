@@ -49,13 +49,14 @@ nmap <leader><leader>f :action KJumpAction.Word1<cr>
 
 ### Available Actions
 
-| Name         | Action            | Description                                                        |
-|--------------|-------------------|--------------------------------------------------------------------|
-| KJump        | KJumpAction       | Input 1 character and jump to any same character                   |
-| KJump Char 2 | KJumpAction.Char2 | Input 2 characters and jump to any matching position               |
-| KJump Word 0 | KJumpAction.Word0 | Jump to any word                                                   |
-| KJump Word 1 | KJumpAction.Word1 | Input 1 character and jump to any word starting with this character|
-| KJump Line   | KJumpAction.Line  | Jump to any line                                                   |
+| Name                | Action                  | Description                                                         |
+|---------------------|-------------------------|---------------------------------------------------------------------|
+| KJump               | KJumpAction             | Input 1 character and jump to any same character                    |
+| KJump Char 2        | KJumpAction.Char2       | Input 2 characters and jump to any matching position                |
+| KJump Word 0        | KJumpAction.Word0       | Jump to any word                                                    |
+| KJump Word 1        | KJumpAction.Word1       | Input 1 character and jump to any word starting with this character |
+| KJump Line          | KJumpAction.Line        | Jump to any line                                                    |
+| KJump Global Word 0 | KJumpAction.GlobalWord0 | Jump to any word across all visible editors                         |
 
 <!-- Plugin description end -->
 
