@@ -16,7 +16,7 @@ jobs:
       contents: write
       pull-requests: write
     steps:
-      # Check out the current repository
+      # Check out the the current repository
       - name: Fetch Sources
         uses: actions/checkout@v4
         with:
