@@ -11,8 +11,6 @@ import com.werfad.finder.*
 import com.werfad.utils.getVisibleRangeOffset
 
 object GlobalJumpHandler : TypedActionHandler {
-    const val MODE_WORD0 = 2
-
     private var mOldTypedHandler: TypedActionHandler? = null
     private var mOldEscActionHandler: EditorActionHandler? = null
     private var isStart = false
@@ -106,7 +104,7 @@ object GlobalJumpHandler : TypedActionHandler {
         }
     }
 
-    fun start(mode: Int, anActionEvent: AnActionEvent) {
+    fun start(mode: JumpMode, anActionEvent: AnActionEvent) {
         if (isStart) return
         isStart = true
         val editor = anActionEvent.getData(CommonDataKeys.EDITOR) ?: return
@@ -119,7 +117,7 @@ object GlobalJumpHandler : TypedActionHandler {
         val visibleBorderOffset = editor.getVisibleRangeOffset()
         val visibleString = editor.document.getText(visibleBorderOffset)
         when (mode) {
-            MODE_WORD0 -> finder = GlobalWord0Finder()
+            JumpMode.Word0 -> finder = GlobalWord0Finder()
             else -> throw RuntimeException("Invalid start mode: $mode")
         }
         val marks = finder.start(editor, visibleString, visibleBorderOffset)
